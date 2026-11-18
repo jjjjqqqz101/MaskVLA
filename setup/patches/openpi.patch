@@ -1,0 +1,142 @@
+--- a/src/openpi/training/config.py
++++ b/src/openpi/training/config.py
+@@ -5,6 +5,7 @@
+ import dataclasses
+ import difflib
+ import logging
++import os
+ import pathlib
+ from typing import Any, Literal, Protocol, TypeAlias
+ 
+@@ -20,6 +21,8 @@
+ import openpi.policies.aloha_policy as aloha_policy
+ import openpi.policies.droid_policy as droid_policy
+ import openpi.policies.libero_policy as libero_policy
++import openpi.policies.maniskill_policy as maniskill_policy
++import openpi.policies.robocasa_policy as robocasa_policy
+ import openpi.shared.download as _download
+ import openpi.shared.normalize as _normalize
+ import openpi.training.droid_rlds_dataset as droid_rlds_dataset
+@@ -28,6 +31,10 @@
+ import openpi.training.optimizer as _optimizer
+ import openpi.training.weight_loaders as weight_loaders
+ import openpi.transforms as _transforms
++
++_MANISKILL_ROOT = pathlib.Path(os.environ.get("MANISKILL_ROOT", pathlib.Path(__file__).resolve().parents[4] / "ManiSkill")).expanduser()
++
++_POLICY_ROOT = pathlib.Path(os.environ.get("MASK_POLICY_ROOT", _MANISKILL_ROOT.parent.parent))
+ 
+ ModelType: TypeAlias = _model.ModelType
+ # Work around a tyro issue with using nnx.filterlib.Filter directly.
+@@ -279,6 +286,58 @@
+ 
+ 
+ @dataclasses.dataclass(frozen=True)
++class LeRobotManiSkillDataConfig(DataConfigFactory):
++    """Read the local 25 x 50 ManiSkill LeRobot dataset for both training and inference."""
++
++    @override
++    def create(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
++        repack = _transforms.Group(inputs=[_transforms.RepackTransform({
++            "observation/image": "image",
++            "observation/wrist_image": "wrist_image",
++            "observation/target_image": "target_image",
++            "observation/state": "state",
++            "actions": "actions",
++            "prompt": "prompt",
++        })])
++        joint_mask = _transforms.make_bool_mask(7, -1)
++        data_transforms = _transforms.Group(
++            inputs=[maniskill_policy.ManiSkillInputs(), _transforms.DeltaActions(joint_mask)],
++            outputs=[_transforms.AbsoluteActions(joint_mask), maniskill_policy.ManiSkillOutputs()],
++        )
++        return dataclasses.replace(
++            self.create_base_config(assets_dirs, model_config),
++            repack_transforms=repack,
++            data_transforms=data_transforms,
++            model_transforms=ModelTransformFactory()(model_config),
++        )
++
++
++@dataclasses.dataclass(frozen=True)
++class RoboCasaDataConfig(DataConfigFactory):
++    """23D robot state / 7D world OSC delta, with three same-frame RGB streams.
++
++    The pilot raw-H5 loader supplies the observation/* keys directly. This
++    config is also usable by the standard policy builder at inference.
++    """
++    repo_id: str = "robocasa/pilot_v1"
++    assets: AssetsConfig = dataclasses.field(default_factory=lambda: AssetsConfig(asset_id="robocasa_pilot_v1"))
++
++    @override
++    def create(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
++        if not isinstance(model_config, pi0_config.Pi0Config) or not model_config.pi05 or not model_config.discrete_state_input:
++            raise ValueError("RoboCasa pi05 must tokenize the real 23D state")
++        model_transforms = ModelTransformFactory(default_prompt=robocasa_policy.PROMPT)(model_config)
++        return dataclasses.replace(
++            self.create_base_config(assets_dirs, model_config),
++            data_transforms=_transforms.Group(inputs=[robocasa_policy.RoboCasaInputs()],
++                                             outputs=[robocasa_policy.RoboCasaOutputs()]),
++            model_transforms=_transforms.Group(inputs=[robocasa_policy.ClipNormalizedState(), *model_transforms.inputs],
++                                              outputs=model_transforms.outputs),
++            use_quantile_norm=True,
++        )
++
++
++@dataclasses.dataclass(frozen=True)
+ class LeRobotLiberoDataConfig(DataConfigFactory):
+     """
+     This config is used to configure transforms that are applied at various parts of the data pipeline.
+@@ -761,6 +820,52 @@
+         pytorch_weight_path="/path/to/your/pytorch_weight_path",
+         num_train_steps=30_000,
+     ),
++    TrainConfig(
++        name="pi05_robocasa_pilot_v1",
++        project_name="robocasa_pi05",
++        model=pi0_config.Pi0Config(pi05=True, action_dim=32, action_horizon=10,
++                                 max_token_len=200, discrete_state_input=True),
++        data=RoboCasaDataConfig(),
++        weight_loader=weight_loaders.CheckpointWeightLoader(
++            str(_POLICY_ROOT / "ckpt/maniskill/pi05_25x50/49999/params")),
++        lr_schedule=_optimizer.CosineDecaySchedule(warmup_steps=20, peak_lr=2e-5,
++                                                   decay_steps=2000, decay_lr=2e-6),
++        optimizer=_optimizer.AdamW(clip_gradient_norm=1.0),
++        freeze_filter=nnx.Nothing(),
++        ema_decay=None, batch_size=3, fsdp_devices=3, num_workers=0,
++        num_train_steps=200, log_interval=10, save_interval=100, keep_period=1000,
++        assets_base_dir=str(_POLICY_ROOT / "data/robocasa/pilot_v1/openpi_assets"),
++        checkpoint_base_dir=str(_POLICY_ROOT / "ckpt/robocasa/pilot_v1"),
++        policy_metadata={"robot_state_dim":23,"robot_action_dim":7,"internal_dim":32,
++                         "control_hz":20,"task":"full_pick_place","initialization":"domain_transfer_warm_start"},
++        wandb_enabled=False,
++    ),
++    TrainConfig(
++        name="pi05_maniskill_25x50",
++        project_name="maniskill_pi05",
++        model=pi0_config.Pi0Config(pi05=True, action_horizon=10, discrete_state_input=False),
++        data=LeRobotManiSkillDataConfig(
++            repo_id="maniskill/target_pick_forty_pi05_25x50",
++            base_config=DataConfig(prompt_from_task=True),
++        ),
++        weight_loader=weight_loaders.CheckpointWeightLoader(os.environ.get("PI05_BASE_PARAMS", str(_MANISKILL_ROOT / "openpi_assets/checkpoints/pi05_base/params"))),
++        lr_schedule=_optimizer.CosineDecaySchedule(
++            warmup_steps=1000, peak_lr=2e-5, decay_steps=50_000, decay_lr=2e-6,
++        ),
++        optimizer=_optimizer.AdamW(clip_gradient_norm=1.0),
++        freeze_filter=nnx.Nothing(),
++        ema_decay=None,
++        batch_size=24,
++        fsdp_devices=3,
++        num_workers=8,
++        num_train_steps=50_000,
++        log_interval=20,
++        save_interval=10_000,
++        keep_period=10_000,
++        assets_base_dir=os.environ.get("OPENPI_ASSETS_DIR", str(_MANISKILL_ROOT / "openpi_assets")),
++        checkpoint_base_dir=os.environ.get("OPENPI_CHECKPOINT_DIR", str(_MANISKILL_ROOT / "examples/baselines/act/runs/openpi")),
++        wandb_enabled=False,
++    ),
+     #
+     # Fine-tuning Aloha configs.
+     #

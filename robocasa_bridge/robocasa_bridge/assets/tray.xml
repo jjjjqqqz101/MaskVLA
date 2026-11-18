@@ -1,0 +1,10 @@
+<mujoco model="collection_tray"><asset/><worldbody><body><body name="object">
+<geom group="0" name="bottom" type="box" pos="0 0 0" size=".14 .105 .006" rgba=".25 .65 .3 1" density="1500" friction="1 .01 .001"/>
+<geom group="0" name="wall_left" type="box" pos="-.144 0 .018" size=".006 .111 .024" rgba=".25 .65 .3 1" density="1500"/>
+<geom group="0" name="wall_right" type="box" pos=".144 0 .018" size=".006 .111 .024" rgba=".25 .65 .3 1" density="1500"/>
+<geom group="0" name="wall_front" type="box" pos="0 -.111 .018" size=".15 .006 .024" rgba=".25 .65 .3 1" density="1500"/>
+<geom group="0" name="wall_back" type="box" pos="0 .111 .018" size=".15 .006 .024" rgba=".25 .65 .3 1" density="1500"/>
+<site name="bottom_site" pos="0 0 -.006" size=".005" rgba="0 0 0 0"/>
+<site name="top_site" pos="0 0 .042" size=".005" rgba="0 0 0 0"/>
+<site name="horizontal_radius_site" pos=".18 0 0" size=".005" rgba="0 0 0 0"/>
+</body></body></worldbody></mujoco>

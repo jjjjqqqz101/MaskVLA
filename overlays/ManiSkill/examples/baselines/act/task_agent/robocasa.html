@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RoboCasa · 示范采集与回放</title>
+<style>
+:root{--paper:#f5f7f4;--ink:#17362b;--muted:#708078;--line:#dae4dd;--green:#176b4e;--pale:#eaf4ed;--red:#aa4838;--gold:#a77928}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px;font-weight:650}button:hover{background:var(--pale);border-color:var(--green)}button:disabled{opacity:.45;cursor:not-allowed}button.primary{background:var(--green);color:#fff;border-color:var(--green)}button.stop{color:var(--red)}input,select,textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);padding:9px}label{display:block;margin:12px 0 5px;font-size:12px;color:var(--muted)}header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;background:#fff;border-bottom:1px solid var(--line);padding:20px 30px}.brand strong{font-size:18px}.brand small{display:block;color:var(--muted);font-size:12px}.backendnav{display:flex;gap:7px;flex-wrap:wrap}.backendnav a{color:var(--green);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:12px;font-weight:650}.backendnav a[aria-current=page]{background:var(--pale);border-color:#b1d4bf}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--green);outline-offset:2px}main{max-width:1550px;margin:auto;padding:28px 30px}h1{font-size:28px;line-height:1.3;margin:0 0 9px}h2{font-size:16px;margin:0}h3{font-size:14px;margin:0}.intro{color:var(--muted);margin:0 0 16px}.notice{border:1px solid #c7ddce;background:#eef6ef;padding:13px 17px;border-radius:10px;margin-bottom:22px;font-size:13px}.notice strong{display:block;margin-bottom:3px}.layout{display:grid;grid-template-columns:340px minmax(0,1fr);gap:22px;align-items:start}.card{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}.section{padding:20px;border-bottom:1px solid var(--line)}.section:last-child{border-bottom:0}.stack{display:grid;gap:20px}.eyebrow{font-size:11px;color:var(--green);font-weight:750;letter-spacing:1px;margin-bottom:6px}.hint{font-size:12px;color:var(--muted);margin:8px 0 0;overflow-wrap:anywhere}.row{display:flex;gap:8px}.row>*{flex:1;min-width:0}.full{display:block;width:100%;margin-top:10px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:17px 20px;border-bottom:1px solid var(--line)}.badge{font-size:12px;border-radius:24px;background:#eef2ef;color:var(--muted);padding:4px 11px;white-space:nowrap}.badge.good{color:var(--green);background:var(--pale)}.badge.bad{color:var(--red);background:#fbede7}.badge.busy{color:var(--gold);background:#fff6e4}.body{padding:17px 20px}.preview{background:#152b22;min-height:350px;display:grid;place-items:center}.preview img{width:100%;display:block}.empty{text-align:center;color:#abc4b8;padding:65px 24px}.empty strong{display:block;color:#edf4ef;font-size:18px;margin-bottom:8px}.meter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}.meter>div{padding:13px 16px;border-right:1px solid var(--line)}.meter>div:last-child{border:0}.meter span{display:block;color:var(--muted);font-size:11px}.meter strong{display:block;margin-top:4px;font-size:14px;overflow-wrap:anywhere}.statusline{padding:13px 20px;border-top:1px solid var(--line);font-size:13px;overflow-wrap:anywhere}.statusline.muted{color:var(--muted)}#replayResult{white-space:pre-line}.error{padding:12px 16px;border:1px solid #e7c5bf;background:#fff7f4;color:var(--red);border-radius:8px;margin-bottom:18px;white-space:pre-wrap;overflow-wrap:anywhere}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px;outline-offset:5px}.controls button{padding:9px 4px;font-size:12px}.controls .gripper{grid-column:span 3;display:flex;gap:7px}.controls .gripper button{flex:1}.rotations{display:flex;gap:7px;margin-top:8px}.rotations button{flex:1;font-size:12px;padding:8px 4px}.keys{font:11px ui-monospace,SFMono-Regular,monospace;color:var(--muted)}.order{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.order span{font-size:12px;border:1px solid var(--line);border-radius:30px;padding:5px 10px}.order span.done{color:var(--green);background:var(--pale);border-color:#b1d4bf}.order span.current{border-color:#b9904e;background:#fffaf0}.modelpill{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:7px;margin-top:7px;font-size:12px;color:var(--muted)}video{display:block;width:100%;max-height:65vh;background:#152b22}.videoactions,.links{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 20px;border-top:1px solid var(--line)}.links{padding:0;margin-top:9px;border:0;font-size:12px}a{color:var(--green)}.events{max-height:250px;overflow:auto;display:grid;gap:7px}.event{padding-bottom:7px;border-bottom:1px solid #edf1eb;font-size:12px;overflow-wrap:anywhere}.event small{display:block;color:var(--muted)}.history{margin-top:24px}.episodes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:17px 20px}.episode{border:1px solid var(--line);border-radius:9px;padding:14px;overflow-wrap:anywhere}.episode h3{font-size:13px}.episode .actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.episode button{font-size:12px;padding:7px 9px}.episode.selected{border-color:var(--green);background:#f7fbf7}.qualitycheck{margin-top:10px;padding:10px;border:1px solid var(--line);border-radius:8px;background:#fafcf9}.qualitycheck .hint{margin-top:5px}.replayunavailable{color:var(--gold)}.footnote{font-size:12px;color:var(--muted);margin-top:18px}.replayhelp{font-size:12px;color:var(--muted);margin:0 0 12px}@media(max-width:1000px){.layout{grid-template-columns:300px minmax(0,1fr)}.episodes{grid-template-columns:1fr}}@media(max-width:740px){header,main{padding:18px}.layout{grid-template-columns:1fr}h1{font-size:24px}.preview{min-height:250px}.meter{grid-template-columns:1fr}.meter>div{border-right:0;border-bottom:1px solid var(--line)}}
+
+.selectionlist{display:grid;gap:9px;margin-top:10px}.selectionitem{padding:10px;border:1px solid var(--line);border-radius:8px;background:#fafcf9}.selectionitem strong{font-size:13px}.selectionitem small{display:block;font-size:11px;color:var(--muted);overflow-wrap:anywhere}.selectiontools{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:7px}.selectiontools button{padding:4px 7px;font-size:11px}.selectiontools span{padding:0 5px;font-size:12px}.actualobjects{display:grid;gap:6px;margin-top:10px}.actualobject{font-size:12px;padding:8px 10px;border:1px solid var(--line);border-radius:7px;overflow-wrap:anywhere}.actualobject small{display:block;color:var(--muted)}dialog{border:1px solid var(--line);border-radius:13px;padding:0;width:min(1100px,96vw);max-height:92vh;color:var(--ink);background:var(--paper)}dialog::backdrop{background:#11271fb8}.dialoghead,.dialogfoot{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:16px 20px;background:#fff}.dialoghead{border-bottom:1px solid var(--line)}.dialogfoot{border-top:1px solid var(--line)}.dialogbody{padding:18px 20px;overflow:auto;max-height:70vh}.catalogfilters{display:grid;grid-template-columns:minmax(0,1fr) 200px auto auto;gap:9px;align-items:end}.catalogfilters label{margin-top:0}.catalogcolumns{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px;margin-top:15px}.cataloggrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.catalogitem{padding:12px;border:1px solid var(--line);border-radius:9px;background:#fff;overflow-wrap:anywhere}.catalogitem.selectedcategory{border-color:var(--green);background:#f5fbf5}.catalogitem strong{display:block;font-size:14px}.catalogitem small{display:block;color:var(--muted);font-size:11px}.catalogitem .row{margin-top:9px}.catalogitem button{font-size:11px;padding:6px 8px}.catalogitem .unavailable{font-size:11px;color:var(--gold);margin-top:6px}.catalogpaging{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-top:12px}.catalogpaging button{padding:6px 9px;font-size:12px}.variantpanel{padding:15px;border:1px solid var(--line);border-radius:10px;background:#fff;align-self:start;position:sticky;top:0}.variantpanel select{margin-top:9px}.dialogfoot .hint{margin:0;flex:1}.catalognotice{font-size:12px;color:var(--muted)}@media(max-width:740px){.catalogfilters{grid-template-columns:1fr 1fr}.catalogcolumns{grid-template-columns:1fr}.cataloggrid{grid-template-columns:1fr 1fr}.variantpanel{position:static}.dialogbody{padding:14px}.dialoghead,.dialogfoot{padding:14px}.dialogfoot{flex-wrap:wrap}}
+</style>
+<header><div class="brand"><strong>任务驱动机器人</strong><small>RoboCasa · 固定厨房台面 · 示范采集与回放</small></div><nav class="backendnav" aria-label="仿真后端"><a href="/">ManiSkill · 任务测试</a><a href="/robocasa" aria-current="page">RoboCasa · 采集与回放</a></nav></header>
+<main>
+<h1>先准备厨房场景，再采集新的机器人技能。</h1>
+<p class="intro">选择桌面物品并按清单顺序放入托盘；也可继续使用默认红蓝方块示范。保留初始场景、相机画面、动作与子任务标注，为 ACT 和 π0.5 重新训练准备数据。</p>
+<div class="notice"><strong>当前阶段：场景搭建、示范采集与回放</strong>这里使用手动控制或明确标记的脚本专家采集示范。RoboCasa 的 ACT / π0.5 权重尚未训练，VLM 规划与视觉完成判断尚未接入此后端；现有 ManiSkill 权重不会控制厨房机器人。下方“完成”是仿真评分，质量标签是采集者的备注。</div>
+<div id="error" class="error" role="alert" hidden></div>
+<div class="layout">
+<aside class="card" aria-label="场景与采集设置">
+<section class="section"><div class="eyebrow">01 / 厨房场景</div><h2>固定台面，固定托盘</h2>
+<label for="seed">场景 seed</label><input id="seed" type="number" value="17" min="0" max="2147483647" step="1">
+<label for="objectMode">下一场景桌面物品</label><select id="objectMode"><option value="classic2">默认红蓝方块 · 保留脚本专家</option><option value="custom" id="customModeOption" disabled>从物品库自选</option></select>
+<div id="classicObjectSettings"><label for="order">下一场景放入托盘的顺序</label><select id="order"><option value="red_cube,blue_cube">先红色方块，再蓝色方块</option><option value="blue_cube,red_cube">先蓝色方块，再红色方块</option></select></div>
+<div id="customObjectSettings" hidden><button class="full" id="openCatalog" disabled>浏览物品库与模型变体</button><div id="selectedObjects" class="selectionlist"></div><p id="selectionSummary" class="hint">先从物品库添加物品。</p><p class="hint">清单从上到下就是放置顺序；同一条目的多个物品依次排列。更改清单不会改变当前场景，生成后才生效。</p></div>
+<button class="primary full" id="prepare" disabled>生成厨房场景</button><button class="full" id="restore" disabled>恢复当前初始布局</button>
+<p class="hint" id="sceneInfo">正在连接 RoboCasa 服务…</p><p class="hint">修改顺序后需重新生成场景。恢复初始布局会回到本次场景的起点，当前顺序显示在预览下方。</p>
+</section>
+<section class="section"><div class="eyebrow">02 / 手动示范</div><h2>操作机器人并记录</h2>
+<label for="label">示范备注（选填）</label><input id="label" maxlength="100" placeholder="例如：红方块→蓝方块，第 1 次示范">
+<button class="primary full" id="record" disabled>开始手动采集</button><label for="currentTarget">当前采集目标（离线标注）</label><select id="currentTarget" disabled><option value="">按任务进度自动切换</option></select><p id="targetHint" class="hint">仅切换示范的目标标注，不移动物体，也不代表已完成抓取。</p>
+<div class="row"><div><label for="moveStep">每步移动距离（米）</label><input id="moveStep" type="number" value="0.01" min="0.001" max="0.05" step="0.001"></div><div><label for="controlSteps">每次动作步数</label><input id="controlSteps" type="number" value="1" min="1" max="10" step="1"></div></div>
+<div id="controls" class="controls" tabindex="0" aria-label="机器人手动移动；方向使用世界坐标">
+<button data-move="0,0,1" disabled>上 ↑</button><button data-move="1,0,0" disabled>前 +X</button><button data-move="0,0,-1" disabled>下 ↓</button>
+<button data-move="0,1,0" disabled>左 +Y</button><button id="hold" disabled>保持</button><button data-move="0,-1,0" disabled>右 −Y</button>
+<button data-move="-1,0,0" disabled>后 −X</button><button data-rotate="0,0,1" disabled>旋转 +Z</button><button data-rotate="0,0,-1" disabled>旋转 −Z</button>
+<div class="gripper"><button id="open" disabled>张开夹爪</button><button id="close" disabled>闭合夹爪</button></div>
+</div>
+<div class="rotations"><button data-rotate="1,0,0" disabled>倾斜 +X</button><button data-rotate="-1,0,0" disabled>倾斜 −X</button><button data-rotate="0,1,0" disabled>倾斜 +Y</button><button data-rotate="0,-1,0" disabled>倾斜 −Y</button></div>
+<p class="hint">方向以世界坐标为准，底盘固定。建议小幅移动；点击控制区后可用 W/S、A/D、Q/E 移动，空格切换夹爪。</p>
+<label for="quality">停止采集时保存的质量标签</label><select id="quality"><option value="stopped">手动停止 / 待检查</option><option value="success">成功示范（人工标签）</option><option value="failure">失败示范（人工标签）</option></select>
+<button class="full" id="save" disabled>停止采集并保存</button><p class="hint">保存质量标签不会替代仿真评分。失败和手动停止的记录也会保留。</p>
+</section>
+<section class="section"><div class="eyebrow">03 / 脚本专家示范</div><h2>先验证采集链路</h2><p class="hint">默认红蓝方块场景可由脚本控制机器人依次抓取、放下并记录。自选物品当前使用手动采集；此入口不使用 ACT / π0.5，也不代表已完成策略训练。</p><button class="full" id="scripted" disabled>采集一条脚本专家示范</button><p class="hint" id="scriptedInfo">等待服务发布可用能力。</p></section>
+<section class="section"><div class="eyebrow">04 / 后续模型训练</div><h2>保持原有模型输入方案</h2><span class="modelpill">双路 ACT：台面 RGB + 目标 Masked RGB · 待训练</span><span class="modelpill">三路 ACT：台面 RGB + 腕部 RGB + 目标 Masked RGB · 待训练</span><span class="modelpill">π0.5：三路图像 + 机器人状态 · 待微调</span><p class="hint">新控制器的状态、动作定义和归一化会随数据记录，不能直接套用 ManiSkill 的动作数组。</p><button class="stop full" id="stop" disabled>停止当前采集或回放</button></section>
+</aside>
+<div class="stack">
+<section class="card" aria-label="厨房场景预览"><div class="head"><h2>厨房与当前执行</h2><span id="phase" class="badge">正在连接</span></div><div class="preview"><div id="empty" class="empty"><strong>先生成厨房场景</strong>连接服务后，点击左侧按钮，查看固定台面、所选物品与托盘。</div><img id="frame" alt="RoboCasa 厨房、台面目标与机器人相机画面" hidden></div><div class="meter"><div><span>当前来源</span><strong id="source">尚未采集</strong></div><div><span>动作步数 / 帧号</span><strong id="steps">—</strong></div><div><span>仿真评分 / 顺序</span><strong id="success">尚未评分</strong></div></div><div class="body"><h3>当前场景实际物品与目标顺序</h3><div id="progress" class="order"></div><div id="currentObjects" class="actualobjects"></div></div><div id="rendering" class="statusline muted">渲染信息等待验证。</div><div class="statusline muted">右下角目标图为离线仿真真值标注，不是 SAM2 / Cutie 的感知结果。</div><div id="replayResult" class="statusline" hidden></div><div id="status" class="statusline">等待场景。</div></section>
+<section id="recordingSection" class="card" aria-label="示范录像"><div class="head"><h2>采集与回放录像</h2><span id="videoState" class="badge">等待示范</span></div><div class="body" id="videoEmpty"><p class="hint">采集结束后自动显示本次录像。也可以在下面选择历史示范回放或下载。</p></div><video id="video" controls preload="metadata" aria-label="RoboCasa 示范过程录像" hidden></video><div id="videoActions" class="videoactions" hidden><button id="replayVideo">从头播放</button><a id="downloadVideo">下载录像</a><span class="hint" id="videoLabel"></span></div></section>
+<section class="card"><div class="head"><h2>执行与数据记录</h2><span id="dataState" class="badge">等待记录</span></div><div class="body"><div id="events" class="events"><p class="hint">场景准备、采集、顺序完成与数据保存事件会出现在这里。</p></div></div></section>
+</div>
+</div>
+<section class="card history" aria-label="RoboCasa 示范记录"><div class="head"><h2>示范数据与回放</h2><button id="refresh">刷新记录</button></div><div class="body"><p class="replayhelp">状态回放用于核对相机、标注和保存的轨迹，不计作自主抓取成功；动作回放用于检查示范动作能否从原始起点重现。回放前可恢复该条示范的初始布局。</p><div id="dataSummary" class="hint">正在读取示范列表。</div></div><div id="episodes" class="episodes"></div></section>
+<p class="footnote">采集数据与仿真评分属于离线准备。仿真对象身份、真值 Mask 和物体位姿应与后续策略输入分开保存；目标视觉模型上线后再通过 VLM → SAM2 → Cutie 获取实际感知 Mask。返回 ManiSkill 页面可继续使用现有三模型、VLM 判断、Mask 干扰及同一初始场景对比。</p>
+<dialog id="catalogDialog" aria-labelledby="catalogTitle">
+<div class="dialoghead"><div><h2 id="catalogTitle">选择桌面物品</h2><p class="hint">按类别、来源或具体模型选择。清单合计 <span id="catalogBounds">1–6</span> 个物品。</p></div><button id="closeCatalog" aria-label="关闭物品库">关闭</button></div>
+<div class="dialogbody">
+<div class="catalogfilters"><div><label for="catalogQuery">搜索类别（中文 / 英文）</label><input id="catalogQuery" maxlength="120" placeholder="例如：苹果、杯子、apple、mug"></div><div><label for="catalogSource">资产来源</label><select id="catalogSource"><option value="">全部来源</option></select></div><button id="catalogSearch">搜索</button><button id="catalogRefresh">刷新可用物品</button></div>
+<p id="catalogStatus" class="hint" aria-live="polite">正在读取物品库。</p><div id="catalogError" class="error" role="alert" hidden></div>
+<div class="catalogcolumns"><div><div id="catalogResults" class="cataloggrid"></div><div class="catalogpaging"><button id="catalogPrev">上一页类别</button><span id="catalogPage" class="hint"></span><button id="catalogNext">下一页类别</button></div></div>
+<section class="variantpanel"><h3 id="variantTitle">查看具体模型变体</h3><p id="variantInfo" class="hint">点击某个类别的“查看模型”，可选择具体外形；也可由 seed 确定实例。</p><label for="catalogVariant">模型变体</label><select id="catalogVariant" disabled><option value="">按 seed 选择具体模型</option></select><p id="variantDetails" class="hint"></p><div class="catalogpaging"><button id="variantPrev" disabled>上一页模型</button><span id="variantPage" class="hint"></span><button id="variantNext" disabled>下一页模型</button></div><button class="primary full" id="addVariant" disabled>添加到桌面清单</button><p class="hint">未固定变体时，生成场景会按 seed 选择模型；随后恢复初态会保留已生成的具体实例。物品实际外观可在场景画面中查看。</p></section></div>
+<p class="catalognotice">不可抓取的装饰、大型或缺少资产的候选会被禁用并显示原因。刷新可用物品可更新下载后的状态。</p>
+</div><div class="dialogfoot"><p id="dialogSelectionSummary" class="hint"></p><button class="primary" id="finishCatalog">完成选择</button></div>
+</dialog>
+</main>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const UI={token:'',config:null,status:null,episodes:[],pending:false,connected:false,frameKey:'',videoKey:'',selectedEpisode:null,lastBusy:false,connectionError:false,observed:[],lastStageKey:'',qcCache:new Map(),episodeRevision:0,gripper:-1,selection:[],selectionSerial:0,catalogRows:[],catalogById:new Map(),catalogSources:[],catalogOffset:0,catalogLimit:30,catalogTotal:0,catalogBusy:false,catalogSeq:0,variantCategory:null,variantRows:[],variantOffset:0,variantLimit:50,variantTotal:0,variantBusy:false,variantSeq:0,targetOptionsKey:'',objectNames:new Map([['red_cube','红色方块'],['blue_cube','蓝色方块']])};
+const phases={not_initialized:'尚未生成场景',scene_preview:'场景就绪',scene_queued:'正在准备场景',record_start_queued:'正在开始采集',record_stop_queued:'正在保存示范',control_queued:'正在执行手动动作',scripted_demo_queued:'正在开始脚本示范',replay_queued:'正在开始回放',stop_queued:'正在停止',manual_recording:'手动采集中',scripted_expert:'脚本专家采集中',recording_saved:'示范已保存',replay_states:'按状态回放中',replay_actions:'按动作回放中',replay_finished:'回放已结束',idle:'等待场景',ready:'场景就绪',scene_ready:'场景就绪',preparing_scene:'正在准备场景',loading:'正在加载',recording:'手动采集中',scripted_demo:'脚本专家采集中',scripted:'脚本专家采集中',replaying:'正在回放',stopping:'正在停止',stopped:'已停止',completed:'已结束',error:'运行异常',closed:'场景已关闭'};
+const sourceNames={manual:'手动控制',manual_teleop:'手动控制',browser_teleop:'手动控制',scripted:'脚本专家',scripted_expert:'脚本专家',scripted_expert_privileged_state:'脚本专家（使用仿真状态）',expert:'脚本专家',state_replay:'状态回放',action_replay:'动作回放'};
+const qualityNames={success:'成功（人工标签）',failure:'失败（人工标签）',stopped:'手动停止 / 待检查',unknown:'待检查',unreviewed:'待检查'};
+function txt(v,fallback='—'){return v===null||v===undefined||v===''?fallback:String(v)}
+function message(v){$('error').textContent=v||'';$('error').hidden=!v}
+function name(id){return UI.objectNames.get(id)||String(id)}
+function dateText(value){
+ if(value===undefined||value===null||value==='')return '时间未记录';
+ const n=typeof value==='number'?value:typeof value==='string'&&/^[0-9]+(?:[.][0-9]+)?$/.test(value)?Number(value):null;
+ const d=n!==null?new Date(n<1e12?n*1000:n):new Date(value);
+ return Number.isFinite(d.getTime())?d.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false})+'（北京时间）':'时间未记录';
+}
+function phaseLabel(value){
+ if(phases[value])return phases[value];
+ const parts=String(value).split(':'),stages={approach:'接近目标',descend:'下降到目标',close:'闭合夹爪',lift:'抬升',transport:'搬运',place:'下降放置',release:'张开夹爪',retreat:'退回',settle:'等待物体稳定'};
+ return parts.length===2&&stages[parts[1]]?name(parts[0])+' · '+stages[parts[1]]:String(value||'等待场景');
+}
+function sceneOf(s=UI.status){return s?.scene||{}}
+function busy(s=UI.status){return s?.busy===true}
+function recording(s=UI.status){
+ const actual=s?.recording;
+ if(typeof actual==='boolean')return actual;
+ if(actual&&typeof actual.active==='boolean')return actual.active;
+ return s?.phase==='recording'||s?.phase==='manual_recording';
+}
+function displayPhase(s){
+ const phase=s?.phase||s?.status||'idle';
+ const explicitlyStopped=s?.recording===false||s?.recording?.active===false;
+ if(explicitlyStopped&&s?.busy!==true&&s?.scene&&['recording','manual_recording','scripted_expert'].includes(phase))return s.error?'error':'scene_preview';
+ return phase;
+}
+function ready(s=UI.status){const c=sceneOf(s);return c.ready===true||s?.scene_ready===true||!!(s?.scene&&s?.frame_url)||['ready','scene_ready','recording'].includes(s?.phase)}
+function chosenOrder(){return $('order').value.split(',')}
+function objectMode(){return $('objectMode').value==='custom'?'custom':'classic2'}
+function objectLimits(){const c=UI.config||{};return {min:1,max:Math.max(1,Math.min(6,Number(c.max_objects||c.object_selection?.max_objects)||6))}}
+function selectionCount(){return UI.selection.reduce((n,row)=>n+row.quantity,0)}
+function catalogSupported(){return UI.config?.catalog_url!==undefined||UI.config?.object_selection_available===true||UI.config?.catalog_available===true}
+function sourceName(value){return ({objaverse:'Objaverse 模型库',lightwheel:'Lightwheel 模型库',aigen:'AI 生成资产',robocasa:'RoboCasa 内置',procedural:'基础几何物体'})[value]||txt(value,'来源未标明')}
+function canSelectCategory(row){return !!row&&row.graspable===true&&row.selectable===true&&row.available!==false}
+function categoryName(row){return row?.name_zh||row?.name||row?.catalog_id||'未命名物品'}
+function selectionError(){
+ const {min,max}=objectLimits(),count=selectionCount();
+ if(count<min)return '请至少选择 '+min+' 个物品。';
+ if(count>max)return '清单最多包含 '+max+' 个物品。';
+ for(const row of UI.selection){
+  if(!Number.isInteger(row.quantity)||row.quantity<1)return '物品数量需为正整数。';
+  const known=UI.catalogById.get(row.catalog_id);
+  if(known&&!canSelectCategory(known))return categoryName(known)+' 当前不可选，请刷新物品库或移除该项。';
+ }
+ return '';
+}
+function renderSelection(){
+ const list=$('selectedObjects');list.replaceChildren();
+ UI.selection.forEach((row,index)=>{
+  const item=document.createElement('div');item.className='selectionitem';
+  const label=document.createElement('strong');label.textContent=(index+1)+' · '+row.name;
+  const detail=document.createElement('small');detail.textContent=sourceName(row.source)+' · '+(row.instance_label||'按 seed 选择模型');
+  item.append(label,detail);
+  const tools=document.createElement('div');tools.className='selectiontools';
+  for(const [text,action,disabled] of [['−','less',row.quantity<=1],['+','more',selectionCount()>=objectLimits().max],['上移','up',index===0],['下移','down',index===UI.selection.length-1],['移除','remove',false]]){
+   const button=document.createElement('button');button.textContent=text;button.dataset.selectionAction=action;button.dataset.fixedDisabled=String(disabled);
+   button.setAttribute('aria-label',({less:'减少',more:'增加',up:'上移',down:'下移',remove:'移除'})[action]+row.name+(action==='less'||action==='more'?'数量':''));
+   button.onclick=()=>editSelection(index,action);tools.append(button);
+   if(action==='less'){const n=document.createElement('span');n.textContent=String(row.quantity);tools.append(n)}
+  }
+  item.append(tools);list.append(item);
+ });
+ const count=selectionCount(),{min,max}=objectLimits();
+ $('selectionSummary').textContent=count?'已选 '+count+' / '+max+' 个物品 · '+UI.selection.map(row=>row.name+' × '+row.quantity).join(' → '):'尚未选择物品；请从物品库添加 '+min+'–'+max+' 个。';
+ $('dialogSelectionSummary').textContent=$('selectionSummary').textContent;
+ $('catalogBounds').textContent=min+'–'+max;
+ setControls();
+}
+function editSelection(index,action){
+ if(UI.pending||busy()||recording())return;
+ const row=UI.selection[index];if(!row)return;
+ if(action==='more'&&selectionCount()<objectLimits().max)row.quantity++;
+ if(action==='less'&&row.quantity>1)row.quantity--;
+ if(action==='remove')UI.selection.splice(index,1);
+ if(action==='up'&&index>0)[UI.selection[index-1],UI.selection[index]]=[row,UI.selection[index-1]];
+ if(action==='down'&&index<UI.selection.length-1)[UI.selection[index+1],UI.selection[index]]=[row,UI.selection[index+1]];
+ renderSelection();
+}
+function addSelection(category,variant=null){
+ if(UI.pending||busy()||recording())return;
+ if(!canSelectCategory(category)){catalogMessage(category?.disabled_reason||'该类别当前不可添加到台面。');return}
+ if(variant&&variant.selectable!==true){catalogMessage(variant.disabled_reason||'该模型当前不可添加。');return}
+ if(selectionCount()>=objectLimits().max){catalogMessage('最多选择 '+objectLimits().max+' 个物品，请先调整清单数量。');return}
+ const instance=variant?.instance_id||null;
+ const existing=UI.selection.find(row=>row.catalog_id===category.catalog_id&&row.instance_id===instance);
+ if(existing)existing.quantity++;
+ else UI.selection.push({key:'selected_'+(++UI.selectionSerial),catalog_id:category.catalog_id,instance_id:instance,quantity:1,name:categoryName(category),source:category.source,instance_label:variant?.label||null});
+ catalogMessage('');renderSelection();
+}
+function scenePayload(){
+ const seed=Number($('seed').value);
+ if(!Number.isInteger(seed)||seed<0||seed>2147483647)throw Error('请输入有效的整数 seed。');
+ if(objectMode()==='classic2')return {seed,order:chosenOrder()};
+ const error=selectionError();if(error)throw Error(error);
+ return {seed,objects:UI.selection.map(({catalog_id,instance_id,quantity})=>({catalog_id,instance_id:instance_id||null,quantity}))};
+}
+function setObjectMode(){
+ const custom=objectMode()==='custom';$('classicObjectSettings').hidden=custom;$('customObjectSettings').hidden=!custom;
+ renderSelection();
+}
+function catalogMessage(text){$('catalogError').textContent=text||'';$('catalogError').hidden=!text}
+function installSources(sources){
+ const old=$('catalogSource').value;
+ if(Array.isArray(sources)&&sources.length)UI.catalogSources=sources;
+ $('catalogSource').replaceChildren();
+ const all=document.createElement('option');all.value='';all.textContent='全部来源';$('catalogSource').append(all);
+ const ids=[];
+ for(const source of UI.catalogSources){const id=typeof source==='string'?source:source.id||source.source;if(!id)continue;ids.push(id);const option=document.createElement('option');option.value=id;option.textContent=sourceName(id);$('catalogSource').append(option)}
+ $('catalogSource').value=ids.includes(old)?old:'';
+}
+function renderCatalog(){
+ $('catalogResults').replaceChildren();
+ for(const row of UI.catalogRows){
+  const item=document.createElement('article');item.className='catalogitem'+(UI.variantCategory?.catalog_id===row.catalog_id?' selectedcategory':'');
+  const heading=document.createElement('strong');heading.textContent=categoryName(row);
+  const english=document.createElement('small');english.textContent=row.name&&row.name!==heading.textContent?row.name:'';
+  const detail=document.createElement('small');detail.textContent=sourceName(row.source)+' · '+txt(row.instance_count,0)+' 个模型';
+  item.append(heading,english,detail);
+  if(!canSelectCategory(row)){const note=document.createElement('div');note.className='unavailable';note.textContent=row.disabled_reason||(!row.graspable?'该类别未列为可抓取台面物品。':'模型尚不可用。');item.append(note)}
+  const actions=document.createElement('div');actions.className='row';
+  const browse=document.createElement('button');browse.textContent='查看模型';browse.onclick=()=>loadVariants(row,0).catch(e=>catalogMessage(e.message));actions.append(browse);
+  const add=document.createElement('button');add.textContent='添加此类别';add.dataset.catalogAdd=row.catalog_id;add.dataset.unavailable=String(!canSelectCategory(row));add.onclick=()=>addSelection(row);actions.append(add);
+  item.append(actions);$('catalogResults').append(item);
+ }
+ const start=UI.catalogTotal?UI.catalogOffset+1:0,end=Math.min(UI.catalogOffset+UI.catalogRows.length,UI.catalogTotal);
+ $('catalogPage').textContent=start+'–'+end+' / '+UI.catalogTotal+' 类';
+ $('catalogStatus').textContent=UI.catalogBusy?'正在读取物品库…':UI.catalogTotal?'找到 '+UI.catalogTotal+' 个类别。查看模型可指定外形，或按 seed 选择。':'没有匹配的类别，请调整搜索或来源。';
+ $('catalogPrev').disabled=UI.catalogBusy||UI.catalogOffset<=0;
+ $('catalogNext').disabled=UI.catalogBusy||UI.catalogOffset+UI.catalogLimit>=UI.catalogTotal;
+ setControls();
+}
+async function loadCatalog(offset=0,refresh=false){
+ if(!catalogSupported()){catalogMessage('服务尚未提供物品选择，请稍后刷新页面；默认红蓝方块仍可使用。');return}
+ const seq=++UI.catalogSeq;UI.catalogBusy=true;catalogMessage('');setControls();
+ const query=new URLSearchParams({query:$('catalogQuery').value.trim(),source:$('catalogSource').value,offset:String(Math.max(0,offset)),limit:String(UI.catalogLimit)});
+ if(refresh)query.set('refresh','1');
+ try{
+  const data=await request('catalog?'+query.toString());if(seq!==UI.catalogSeq)return;
+  UI.catalogRows=Array.isArray(data.categories)?data.categories:[];
+  UI.catalogOffset=Number(data.offset)||0;UI.catalogTotal=Number(data.total)||UI.catalogRows.length;
+  for(const row of UI.catalogRows)if(typeof row.catalog_id==='string')UI.catalogById.set(row.catalog_id,row);
+  installSources(data.sources);
+  if(UI.variantCategory&&UI.catalogById.has(UI.variantCategory.catalog_id))UI.variantCategory=UI.catalogById.get(UI.variantCategory.catalog_id);
+  renderSelection();
+  if(refresh&&UI.variantCategory)await loadVariants(UI.variantCategory,0);
+ }catch(e){if(seq===UI.catalogSeq)catalogMessage(e.message)}
+ finally{if(seq===UI.catalogSeq){UI.catalogBusy=false;renderCatalog()}}
+}
+function renderVariants(){
+ const category=UI.variantCategory,selector=$('catalogVariant');
+ const old=selector.value;selector.replaceChildren();
+ const random=document.createElement('option');random.value='';random.textContent='按 seed 选择具体模型';random.disabled=!canSelectCategory(category);selector.append(random);
+ for(const row of UI.variantRows){const option=document.createElement('option');option.value=row.instance_id;option.textContent=row.label||row.instance_id;option.disabled=row.selectable!==true;option.title=row.disabled_reason||'';selector.append(option)}
+ selector.value=UI.variantRows.some(row=>row.instance_id===old&&row.selectable===true)?old:'';
+ selector.disabled=UI.variantBusy||!category;
+ $('variantTitle').textContent=category?'模型变体 · '+categoryName(category):'查看具体模型变体';
+ $('variantInfo').textContent=category?sourceName(category.source)+' · '+UI.variantTotal+' 个候选模型':'选择一个类别后查看模型。';
+ $('variantPage').textContent=UI.variantTotal?(UI.variantOffset+1)+'–'+Math.min(UI.variantOffset+UI.variantRows.length,UI.variantTotal)+' / '+UI.variantTotal:'暂无模型';
+ $('variantPrev').disabled=UI.variantBusy||UI.variantOffset<=0;
+ $('variantNext').disabled=UI.variantBusy||UI.variantOffset+UI.variantLimit>=UI.variantTotal;
+ showVariantDetails();setControls();
+}
+function showVariantDetails(){
+ const row=UI.variantRows.find(row=>row.instance_id===$('catalogVariant').value);
+ const dims=row?.bbox_size_m;
+ $('variantDetails').textContent=row?(row.disabled_reason||'')+(Array.isArray(dims)&&dims.length===3&&dims.every(Number.isFinite)?' 尺寸参考：'+dims.map(n=>(n*100).toFixed(1)).join(' × ')+' 厘米':''):'未固定模型；生成时按 seed 选择，随后会保存实际实例。';
+ setControls();
+}
+async function loadVariants(category,offset=0){
+ if(!category)return;
+ const seq=++UI.variantSeq;UI.variantCategory=category;UI.variantBusy=true;setControls();
+ try{
+  const query=new URLSearchParams({category_id:category.catalog_id,offset:String(Math.max(0,offset)),limit:String(UI.variantLimit)});
+  const data=await request('catalog?'+query.toString());if(seq!==UI.variantSeq)return;
+  UI.variantRows=Array.isArray(data.instances)?data.instances:[];
+  UI.variantOffset=Number(data.offset)||0;UI.variantTotal=Number(data.instance_total??data.total)||UI.variantRows.length;
+  if(data.category)UI.variantCategory=data.category;
+ }catch(e){if(seq===UI.variantSeq)catalogMessage(e.message)}
+ finally{if(seq===UI.variantSeq){UI.variantBusy=false;renderVariants();renderCatalog()}}
+}
+function actualObjects(s=UI.status){return Array.isArray(sceneOf(s).selected_objects)?sceneOf(s).selected_objects:Array.isArray(s?.selected_objects)?s.selected_objects:[]}
+function objectLabel(object){return object?.name_zh||object?.display_name||object?.name||object?.id||'物品'}
+function rememberActualObjects(s){
+ const objects=actualObjects(s),counts=new Map(),seen=new Map();
+ for(const object of objects){const base=objectLabel(object);counts.set(base,(counts.get(base)||0)+1)}
+ for(const object of objects){const id=object.id||object.runtime_id,base=objectLabel(object);seen.set(base,(seen.get(base)||0)+1);if(id)UI.objectNames.set(id,base+(counts.get(base)>1?' '+seen.get(base):''))}
+}
+function historyObjectName(row,id){
+ const object=(row.selected_objects||row.scene?.selected_objects||[]).find(object=>(object.id||object.runtime_id)===id);
+ return object?objectLabel(object):['red_cube','blue_cube'].includes(id)?name(id):id;
+}
+function scriptedCapability(){
+ const scene=sceneOf();
+ if(typeof scene.scripted_demo_available==='boolean')return scene.scripted_demo_available;
+ if(typeof UI.status?.scripted_demo_available==='boolean')return UI.status.scripted_demo_available;
+ if(actualObjects().length)return false;
+ return UI.config?.scripted_demo_available===true;
+}
+function showActualObjects(s){
+ const objects=actualObjects(s);$('currentObjects').replaceChildren();
+ if(!objects.length){const text=document.createElement('p');text.className='hint';text.textContent=ready(s)?'默认场景：'+(sceneOf(s).order||[]).map(name).join(' → '):'生成场景后显示实际物品、来源与固定的模型实例。';$('currentObjects').append(text);return}
+ for(const object of objects){
+  const div=document.createElement('div');div.className='actualobject';const label=document.createElement('strong');label.textContent=name(object.id||object.runtime_id);
+  const detail=document.createElement('small');detail.textContent=sourceName(object.source)+' · '+txt(object.instance_label||object.instance_id,'固定基础物体')+(object.instance_label&&object.instance_id?' · 实例 '+String(object.instance_id).slice(0,12):'');detail.title=txt(object.instance_id,'固定基础物体');
+  div.append(label,detail);$('currentObjects').append(div);
+ }
+}
+
+function assetUrl(value){
+ if(typeof value!=='string'||!value.startsWith('/')||value.startsWith('//')||[92,13,10].some(c=>value.includes(String.fromCharCode(c))))return null;
+ if(value.startsWith('/api/robocasa/'))return value;
+ if(value.startsWith('/artifacts/')||value.split('?')[0]==='/frame.png')return '/api/robocasa'+value;
+ return null;
+}
+async function request(path,data,isDocument=false){
+ const opts=data===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':UI.token},body:JSON.stringify(data)};
+ const r=await fetch('/api/robocasa/'+path,opts);let value;
+ try{value=await r.json()}catch{throw Error('服务返回了无效响应，请稍后重试。')}
+ if(!r.ok||(!isDocument&&(value.ok===false||value.error)))throw Error(value.error||value.message||'请求失败');
+ return value;
+}
+function currentEpisode(s=UI.status){return s?.episode?.id||s?.episode?.episode_id||s?.episode_id||(typeof s?.episode==='string'?s.episode:null)}
+function canControl(){return UI.connected&&ready()&&!busy()&&!UI.pending}
+function setControls(){
+ const idle=UI.connected&&!busy()&&!recording()&&!UI.pending,hasScene=ready();
+ $('prepare').disabled=!idle||(objectMode()==='custom'&&!!selectionError());$('restore').disabled=!idle||!hasScene;
+ $('seed').disabled=!idle;$('order').disabled=!idle;
+ $('objectMode').disabled=!idle;$('customModeOption').disabled=!catalogSupported();
+ $('openCatalog').disabled=!idle||!catalogSupported();
+ $('currentTarget').disabled=!canControl()||!catalogSupported();
+ for(const button of document.querySelectorAll('[data-selection-action]'))button.disabled=!idle||button.dataset.fixedDisabled==='true';
+ for(const button of document.querySelectorAll('[data-catalog-add]'))button.disabled=!idle||button.dataset.unavailable==='true'||selectionCount()>=objectLimits().max;
+ const variant=UI.variantRows.find(row=>row.instance_id===$('catalogVariant').value);
+ $('addVariant').disabled=!idle||UI.variantBusy||!canSelectCategory(UI.variantCategory)||selectionCount()>=objectLimits().max||!!($('catalogVariant').value&&variant?.selectable!==true);
+ for(const id of ['catalogSearch','catalogRefresh','catalogQuery','catalogSource'])$(id).disabled=UI.catalogBusy;
+
+ $('record').disabled=!idle||!hasScene||recording();
+ $('save').disabled=!UI.connected||UI.pending||busy()||!recording();
+ $('scripted').disabled=!idle||!hasScene||recording()||!scriptedCapability();
+ $('scriptedInfo').textContent=hasScene?(scriptedCapability()?'当前场景可用；保存时将明确标记为脚本专家示范。':sceneOf().scripted_demo_reason||UI.status?.scripted_demo_reason||'自选物品当前使用手动采集；脚本专家只适用于默认红蓝方块场景。'):'生成默认红蓝方块场景后，可使用已验证的脚本专家。';
+
+ $('stop').disabled=!UI.connected||UI.pending||(!busy()&&!recording());
+ for(const b of document.querySelectorAll('[data-move],[data-rotate],#hold,#open,#close'))b.disabled=!canControl();
+ for(const b of document.querySelectorAll('[data-episode-action]'))b.disabled=b.dataset.unavailable==='true'||!idle||recording();
+ $('refresh').disabled=UI.pending;
+}
+function setupConfig(config){
+ UI.config=config;const objects=Array.isArray(config.objects)?config.objects:[];
+ if(objects.length>=2){
+  for(const o of objects){const id=typeof o==='string'?o:o.id;if(id)UI.objectNames.set(id,typeof o==='string'?o:o.name||o.label||o.id)}
+  const ids=objects.slice(0,2).map(o=>typeof o==='string'?o:o.id);
+  const options=[ids,[...ids].reverse()];$('order').replaceChildren();
+  for(const order of options){const option=document.createElement('option');option.value=order.join(',');option.textContent='先'+name(order[0])+'，再'+name(order[1]);$('order').append(option)}
+ }
+ const scale=config.control||config.scales||config;
+ if(Number.isFinite(scale.translation_step_m))$('moveStep').value=String(scale.translation_step_m);
+ if(Number.isInteger(scale.max_steps))$('controlSteps').max=String(scale.max_steps);
+ $('scriptedInfo').textContent=config.scripted_demo_available===true?'默认红蓝方块可用；保存时标记为脚本专家。':'服务尚未提供脚本专家，仍可使用手动控制采集。';
+ setObjectMode();
+
+}
+
+function showTargetOptions(s){
+ const objects=actualObjects(s),order=sceneOf(s).order||[],choices=objects.length?objects.map(object=>({id:object.id||object.runtime_id,name:name(object.id||object.runtime_id)})):order.map(id=>({id,name:name(id)}));
+ const key=JSON.stringify(choices);
+ if(UI.targetOptionsKey!==key){
+  UI.targetOptionsKey=key;$('currentTarget').replaceChildren();
+  const auto=document.createElement('option');auto.value='';auto.textContent='按任务进度自动切换';$('currentTarget').append(auto);
+  for(const object of choices){const option=document.createElement('option');option.value=object.id;option.textContent=object.name;$('currentTarget').append(option)}
+ }
+ const override=s.target_override??s.manual_target_id??null;
+ if(!UI.pending)$('currentTarget').value=choices.some(object=>object.id===override)?override:'';
+ const target=s.progress?.current_target;
+ $('targetHint').textContent=(override?'固定标注目标：'+name(override):target?'自动标注目标：'+name(target):'尚未指定当前目标')+'。仅切换离线目标标注，不移动物体，也不代表已完成抓取。';
+}
+function showProgress(s){
+ const order=sceneOf(s).order||s.order||chosenOrder();
+ const completed=s.ordered_completed||s.progress?.ordered_completed||[];
+ const count=Array.isArray(completed)?completed.length:typeof completed==='number'?completed:0;
+ $('progress').replaceChildren();
+ order.forEach((id,i)=>{const el=document.createElement('span');el.textContent=(i+1)+' · '+name(id);if(i<count)el.className='done';else if(i===count&&ready(s))el.className='current';$('progress').append(el)});
+}
+function showEvents(s){
+ const rows=Array.isArray(s.events)&&s.events.length?s.events.slice(-30).reverse():UI.observed.slice(-30).reverse();
+ if(!rows.length){$('events').replaceChildren();const p=document.createElement('p');p.className='hint';p.textContent='场景准备、采集、顺序完成与数据保存事件会出现在这里。';$('events').append(p);return}
+ $('events').replaceChildren();
+ for(const row of rows){const el=document.createElement('div');el.className='event';const title=document.createElement('div');title.textContent=txt(row.message||row.description||row.event||row.type);el.append(title);const detail=document.createElement('small');detail.textContent=[row.frame_id!==undefined?'帧 '+row.frame_id:null,row.step!==undefined?'步 '+row.step:null,row.source?sourceNames[row.source]||row.source:null,row.reason||null].filter(Boolean).join(' · ');el.append(detail);$('events').append(el)}
+}
+function showRendering(s){
+ const r=s.rendering||UI.config?.rendering||{};
+ const renderer=r.renderer||r.gl_renderer||r.GL_RENDERER||'';
+ const vendor=r.vendor||r.gl_vendor||r.GL_VENDOR||'';
+ const confirmed=r.gpu_verified===true||r.gpu===true||r.gpu_rendering_verified===true;
+ $('rendering').textContent=confirmed?'GPU 渲染已验证 · '+[vendor,renderer].filter(Boolean).join(' · '):renderer?'当前渲染器：'+[vendor,renderer].filter(Boolean).join(' · ')+'；是否为 GPU 以验证报告为准。':'渲染信息等待服务发布；尚未显示 GPU 验证结果。';
+}
+function showVideo(url,id,label){
+ const safe=assetUrl(url);if(!safe)return;
+ const key=id+'|'+safe;if(key!==UI.videoKey){$('video').pause();$('video').src=safe;UI.videoKey=key}
+ $('video').hidden=false;$('videoEmpty').hidden=true;$('videoActions').hidden=false;
+ $('videoState').textContent='录像已保存';$('videoState').className='badge good';
+ $('videoLabel').textContent=label||id||'本次示范';
+ $('downloadVideo').href=safe+(safe.includes('?')?'&':'?')+'download=1';
+ $('downloadVideo').setAttribute('download','');
+}
+function videoOf(s){return s.video_url||s.video||s.episode?.video_url||s.artifacts?.video}
+function replaySummary(replay){
+ if(!replay?.mode)return '';
+ const states=replay.mode==='states',lines=[];
+ if(states){
+  lines.push(replay.replay_completed===true?'状态回放已完成（恢复保存的仿真状态）。':replay.replay_completed===false?'状态回放未完成。':'状态回放结果已记录。');
+  lines.push('仅用于轨迹、画面与标注核对，不计作机器人自主任务成功。');
+ }else{
+  lines.push(replay.replay_completed===true?'动作回放已完成（重执行保存的动作）。':replay.replay_completed===false?'动作回放未完成。':'动作回放结果已记录。');
+  lines.push(replay.task_reproduced===true?'任务已按指定顺序重现。':replay.task_reproduced===false?'本次未按指定顺序完成任务。':'任务重现结果未记录。');
+ }
+ const strict=typeof replay.strict_trajectory_verified==='boolean'?replay.strict_trajectory_verified:replay.verified;
+ lines.push('严格'+(states?'状态':'动作')+'轨迹核验'+(strict===true?'通过。':strict===false?'未通过（保留原判定，未放宽标准）。':'待检查。'));
+ const stateOk=replay.initial_state_verified===true||replay.state_verified===true||replay.initial_state_match===true;
+ const visualOk=replay.initial_visual_verified===true||replay.visual_verified===true||replay.initial_visual_match===true;
+ lines.push(replay.initial_rgb_match===true?'初始画面逐像素一致。':stateOk&&visualOk?'初态与图像容差核验通过。':'初态画面未匹配。');
+ const metrics=[];
+ for(const [field,label] of [['max_eef_position_error_m','最大末端位置差'],['max_object_position_error_m','最大物体位置差']]){
+  const value=replay[field];if(Number.isFinite(value)&&value>=0)metrics.push(label+' '+(value*1000).toLocaleString('zh-CN',{maximumFractionDigits:4})+' 毫米');
+ }
+ for(const [field,label] of [['max_arm_joint_error_rad','最大机械臂关节差'],['max_object_rotation_error_rad','最大物体旋转差']]){
+  const value=replay[field];if(Number.isFinite(value)&&value>=0)metrics.push(label+' '+value.toPrecision(4)+' rad');
+ }
+ if(metrics.length)lines.push(metrics.join('；')+'。');
+ else if(Number.isFinite(replay.max_abs_qpos_error))lines.push('原始 qpos 向量最大分量差 '+replay.max_abs_qpos_error+'（混合单位，仅作原始诊断，不能直接换算为毫米）。');
+ return lines.join(String.fromCharCode(10));
+}
+
+function renderStatus(s){
+ const wasBusy=UI.lastBusy,wasRecording=recording(UI.status);UI.status=s;rememberActualObjects(s);UI.connected=true;UI.lastBusy=busy(s);
+ const phase=displayPhase(s);
+ if((s.gripper===-1||s.gripper===1)&&!UI.pending)UI.gripper=s.gripper;
+ $('phase').textContent=phaseLabel(phase);
+ const stageKey=[phase,currentEpisode(s)||'',recording(s)].join('|');
+ if(stageKey!==UI.lastStageKey){UI.observed.push({message:phaseLabel(phase),frame_id:s.frame_id,reason:'网页观察到的服务状态'});UI.observed=UI.observed.slice(-40);UI.lastStageKey=stageKey}
+ $('phase').className='badge '+(s.error?'bad':busy(s)||recording(s)?'busy':ready(s)?'good':'');
+ $('source').textContent=phase.startsWith('replay_')?(phase==='replay_states'?'状态回放':phase==='replay_actions'?'动作回放':'回放结束'):sourceNames[s.source||s.episode?.source]||s.source||s.episode?.source||(recording(s)?'手动控制':'尚未采集');
+ $('steps').textContent=txt(s.steps??s.step_count??s.frame_id);
+ const success=s.simulator_success,valid=s.order_valid;
+ $('success').textContent=valid===false?'顺序未通过':success===true&&valid===true?'已完成，顺序正确':success===true?'物体已放入，顺序待核对':s.ordered_completed?.length?'进行中':'尚未完成';
+ $('status').textContent=s.error||s.message||s.reason||(recording(s)?'正在记录示范。停止后会保留数据与录像。':busy(s)?'正在执行，请等待或停止当前操作。':ready(s)?(scriptedCapability()?'场景已准备好。可开始手动采集，或采集脚本专家示范。':'场景已准备好，可开始手动采集；当前物品没有已验证的脚本专家。'):'等待场景。');
+ $('sceneInfo').textContent=ready(s)?'当前 seed：'+txt(sceneOf(s).seed??s.seed)+' · '+txt(sceneOf(s).id||s.scene_id,'固定厨房台面'):'连接正常，请生成场景。';
+ $('dataState').textContent=recording(s)?'正在采集':currentEpisode(s)?'记录 '+currentEpisode(s):'等待记录';
+ const frame=assetUrl(s.frame_url||'/frame.png');
+ const scene=sceneOf(s),identity=[scene.id||s.scene_id||'',scene.seed,scene.layout_id,scene.style_id,scene.order,scene.initial_rgb_sha256];
+ const revision=[JSON.stringify(identity),s.frame_id??s.revision??'',s.updated_at??'',frame].join('|');
+ if(frame&&ready(s)&&revision!==UI.frameKey){UI.frameKey=revision;$('frame').src=frame+(frame.includes('?')?'&':'?')+'v='+encodeURIComponent(revision)}
+ showProgress(s);showActualObjects(s);showTargetOptions(s);showEvents(s);showRendering(s);
+ const replay=s.replay||{};$('replayResult').hidden=!replay.mode;
+ if(replay.mode)$('replayResult').textContent=replaySummary(replay);
+ if(phase.startsWith('replay_')&&replay.mode==='states')$('success').textContent='状态回放核对（非自主执行）';
+ if((wasBusy||wasRecording)&&!busy(s)&&!recording(s)){const video=videoOf(s);if(video&&!UI.selectedEpisode)showVideo(video,currentEpisode(s),'本次示范 · '+txt(currentEpisode(s),'已保存'));loadEpisodes().catch(()=>{})}
+ else if(!busy(s)&&!recording(s)&&!UI.selectedEpisode&&videoOf(s))showVideo(videoOf(s),currentEpisode(s),'本次示范 · '+txt(currentEpisode(s),'已保存'));
+ if(s.error)message(String(s.error));setControls();
+}
+function addLink(parent,label,url){
+ const safe=assetUrl(url);if(!safe)return;
+ const a=document.createElement('a');a.textContent=label;a.href=safe;a.target='_blank';a.rel='noopener';parent.append(a);
+}
+function episodeId(row){return row.id||row.episode_id}
+function trainingState(row){
+ if(['recording','queued','in_progress'].includes(row.status))return 'pending';
+ return row.training_ready===true?'passed':row.training_ready===false?'failed':'pending';
+}
+function qualityReason(row){
+ const direct=row.quality_reason||row.training_error;
+ if(typeof direct==='string'&&direct.trim())return direct.trim();
+ const issues=Array.isArray(row.data_quality_issues)?row.data_quality_issues.filter(v=>typeof v==='string'&&v.trim()):[];
+ if(issues.length){
+  return issues.map(v=>v.includes('blue target masks zero')?'原台面相机遮挡蓝色目标，蓝色目标的 Mask 全为 0；本条不能作为训练示范。':v).join('；');
+ }
+ if(trainingState(row)==='failed'){
+  if(row.simulator_success===false)return '尚未完成规定的顺序取放任务；原始数据保留供检查。';
+  if(row.order_valid===false)return '物体放置顺序未通过，不能作为成功的顺序任务示范。';
+  return '本条未满足训练准入条件，请查看训练数据说明或校验详情。';
+ }
+ return trainingState(row)==='pending'?'尚未完成数据校验。':'已通过本条示范的训练数据准入校验；仍需按训练集划分统计归一化参数。';
+}
+function canReplayEpisode(row){
+ return row.can_replay===true&&row.deterministic_replay_available!==false&&row._quality_pending!==true&&row._quality_error!==true;
+}
+function needsQualityDetails(row){return row.status!=='recording'&&(trainingState(row)!=='passed'||row.can_replay===false)}
+function qualityCacheKey(row){return [episodeId(row),row.steps,row.status,row.training_ready,row.manifest_url||''].join('|')}
+async function enrichEpisodeQuality(rows,generation){
+ const pending=rows.filter(needsQualityDetails);
+ let cursor=0;
+ async function worker(){
+  while(cursor<pending.length){
+   const row=pending[cursor++],id=episodeId(row);
+   if(typeof id!=='string'||!/^rc_[A-Za-z0-9_-]+$/.test(id)||row.status==='recording')continue;
+   const key=qualityCacheKey(row),cached=UI.qcCache.get(key);
+   if(cached&&Date.now()-cached.at<60000)continue;
+   try{
+    const summary=await request('artifacts/'+id+'/summary.json',undefined,true);
+    const detail={};
+    for(const field of ['training_ready','quality_reason','training_error','data_quality_issues','visual_data_quality_rejected','deterministic_replay_available','training_manifest_url']){
+     if(summary[field]!==undefined)detail[field]=summary[field];
+    }
+    UI.qcCache.set(key,{at:Date.now(),detail});
+   }catch{UI.qcCache.set(key,{at:Date.now(),detail:{_quality_error:true}})}
+  }
+ }
+ await Promise.all(Array.from({length:Math.min(4,pending.length)},worker));
+ if(generation!==UI.episodeRevision)return;
+ UI.episodes=rows.map(row=>{
+  const detail=UI.qcCache.get(qualityCacheKey(row))?.detail||{};
+  return {...row,...detail,_quality_pending:false,manifest_url:row.manifest_url||detail.training_manifest_url};
+ });
+ renderEpisodes();
+}
+
+function renderEpisodes(){
+ $('episodes').replaceChildren();
+ const counts={passed:0,failed:0,pending:0};for(const row of UI.episodes)counts[trainingState(row)]++;
+ $('dataSummary').textContent=UI.episodes.length?'共 '+UI.episodes.length+' 条 · 训练校验通过 '+counts.passed+' 条 / 未通过 '+counts.failed+' 条 / 待检查 '+counts.pending+' 条。人工标签、仿真完成与训练可用性分别记录。':'还没有示范。生成场景后开始采集，失败和手动停止也可保存。';
+ for(const row of UI.episodes){
+  const id=episodeId(row);if(typeof id!=='string')continue;
+  const el=document.createElement('article');el.className='episode'+(id===UI.selectedEpisode?' selected':'');
+  const h=document.createElement('h3');h.textContent=row.label||id;el.append(h);
+  const info=document.createElement('p');info.className='hint';info.textContent=[sourceNames[row.source]||row.source||'示范',qualityNames[row.user_quality||row.quality]||row.user_quality||row.quality||'待检查',row.simulator_success===true?'仿真评分：完成':'仿真评分：未完成 / 未记录',row.order_valid===true?'顺序正确':row.order_valid===false?'顺序未通过':null,row.steps!==undefined?row.steps+' 步':null].filter(Boolean).join(' · ');el.append(info);
+  const qc=document.createElement('div');qc.className='qualitycheck';const qcState=trainingState(row),badge=document.createElement('span');
+  badge.className='badge '+(qcState==='passed'?'good':qcState==='failed'?'bad':'');
+  badge.textContent=qcState==='passed'?'训练数据校验通过':qcState==='failed'?'训练数据校验未通过':'训练数据待检查';
+  const reason=document.createElement('p');reason.className='hint';reason.textContent=qualityReason(row);qc.append(badge,reason);el.append(qc);
+
+  const meta=document.createElement('p');meta.className='hint';meta.textContent=id+(row.created_at?' · '+dateText(row.created_at):'');el.append(meta);
+  const order=document.createElement('p');order.className='hint';order.textContent=Array.isArray(row.order)?row.order.map(id=>historyObjectName(row,id)).join(' → '):'';el.append(order);
+  const actions=document.createElement('div');actions.className='actions';
+  const video=row.video_url||row.video||row.artifacts?.video;
+  if(video){const b=document.createElement('button');b.textContent='查看录像';b.onclick=()=>{UI.selectedEpisode=id;showVideo(video,id,row.label||id);renderEpisodes();$('recordingSection').scrollIntoView({behavior:'smooth',block:'start'})};actions.append(b)}
+  for(const [label,action] of [['恢复此条初态','restore'],['状态回放','states'],['动作回放','actions']]){
+   const b=document.createElement('button');b.textContent=label;b.dataset.episodeAction=action;b.dataset.unavailable=canReplayEpisode(row)?'false':'true';
+   b.onclick=()=>perform(async()=>{UI.selectedEpisode=null;if(action==='restore')await request('scene',{reuse_episode:id});else await request('replay',{episode_id:id,mode:action})});
+   actions.append(b);
+  }
+  el.append(actions);
+  if(!canReplayEpisode(row)){const note=document.createElement('p');note.className='hint replayunavailable';note.textContent=row._quality_pending?'正在读取本条的完整校验信息，仿真回放暂不可用。':row._quality_error?'未能读取完整回放校验信息，请刷新重试；仍可查看录像或下载原始数据。':'本条不具备仿真初态恢复和回放条件。仅可查看录像或下载原始数据，不能进行状态／动作回放。';el.append(note)}
+  const links=document.createElement('div');links.className='links';
+  addLink(links,'下载原始数据',row.data_url||row.raw_url||row.hdf5_url||row.artifacts?.hdf5||row.artifacts?.data);
+  addLink(links,'训练数据说明 / Manifest',row.manifest_url||row.training_manifest_url||row.artifacts?.manifest);
+  addLink(links,'采集元数据',row.metadata_url);
+  if(video)addLink(links,'下载录像',video+(video.includes('?')?'&':'?')+'download=1');
+  el.append(links);$('episodes').append(el);
+ }
+ setControls();
+}
+async function loadEpisodes(){const data=await request('episodes'),generation=++UI.episodeRevision;const rows=Array.isArray(data.episodes)?data.episodes:Array.isArray(data.items)?data.items:[];UI.episodes=rows.map(row=>({...row,_quality_pending:needsQualityDetails(row)}));renderEpisodes();await enrichEpisodeQuality(rows,generation)}
+let polling=false;
+async function poll(){if(polling)return;polling=true;try{if(!UI.config)setupConfig(await request('config'));const s=await request('status');if(UI.connectionError){message('');UI.connectionError=false}renderStatus(s.status&&typeof s.status==='object'?s.status:s)}catch(e){UI.connected=false;UI.connectionError=true;$('phase').textContent='连接未就绪';$('phase').className='badge bad';message(e.message);setControls()}finally{polling=false}}
+async function perform(action){if(UI.pending)return;UI.pending=true;message('');setControls();try{await action();await poll();await loadEpisodes()}catch(e){message(e.message)}finally{UI.pending=false;setControls()}}
+async function control(translation=[0,0,0],rotation=[0,0,0],gripper=UI.gripper){
+ if(!canControl())return;
+ const n=Number($('controlSteps').value),max=Number($('controlSteps').max)||10;
+ if(!Number.isInteger(n)||n<1||n>max){message('动作步数需为 1–'+max+' 的整数。');return}
+ UI.gripper=gripper;
+ await perform(()=>request('control',{translation,rotation,gripper,steps:n}));
+}
+$('prepare').onclick=()=>perform(()=>{const payload=scenePayload();UI.frameKey='';UI.selectedEpisode=null;return request('scene',payload)});
+
+$('objectMode').onchange=setObjectMode;
+$('openCatalog').onclick=()=>{catalogMessage('');$('catalogDialog').showModal();loadCatalog(UI.catalogOffset).catch(e=>catalogMessage(e.message))};
+$('closeCatalog').onclick=()=>$('catalogDialog').close();$('finishCatalog').onclick=()=>$('catalogDialog').close();
+$('catalogSearch').onclick=()=>loadCatalog(0);
+$('catalogRefresh').onclick=()=>loadCatalog(0,true);
+$('catalogSource').onchange=()=>loadCatalog(0);
+$('catalogQuery').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();loadCatalog(0)}};
+let catalogSearchTimer=null;
+$('catalogQuery').oninput=()=>{if(catalogSearchTimer)clearTimeout(catalogSearchTimer);catalogSearchTimer=setTimeout(()=>loadCatalog(0),250)};
+$('catalogPrev').onclick=()=>loadCatalog(Math.max(0,UI.catalogOffset-UI.catalogLimit));
+$('catalogNext').onclick=()=>loadCatalog(UI.catalogOffset+UI.catalogLimit);
+$('variantPrev').onclick=()=>loadVariants(UI.variantCategory,Math.max(0,UI.variantOffset-UI.variantLimit));
+$('variantNext').onclick=()=>loadVariants(UI.variantCategory,UI.variantOffset+UI.variantLimit);
+$('catalogVariant').onchange=showVariantDetails;
+$('addVariant').onclick=()=>addSelection(UI.variantCategory,UI.variantRows.find(row=>row.instance_id===$('catalogVariant').value)||null);
+$('currentTarget').onchange=()=>perform(()=>request('target',{target_id:$('currentTarget').value||null}));
+$('restore').onclick=()=>perform(()=>{UI.frameKey='';UI.selectedEpisode=null;return request('scene',{restore:true})});
+$('record').onclick=()=>perform(()=>{UI.selectedEpisode=null;return request('record/start',{label:$('label').value.trim()})});
+$('save').onclick=()=>perform(()=>request('record/stop',{quality:$('quality').value,note:$('label').value.trim()}));
+$('scripted').onclick=()=>perform(()=>{UI.selectedEpisode=null;return request('scripted_demo',{label:$('label').value.trim()})});
+$('stop').onclick=()=>perform(()=>request('stop',{}));
+$('refresh').onclick=()=>perform(()=>{UI.qcCache.clear();return loadEpisodes()});
+for(const b of document.querySelectorAll('[data-move]'))b.onclick=()=>{const step=Number($('moveStep').value);if(!Number.isFinite(step)||step<.001||step>.05){message('移动距离需为 0.001–0.05 米。');return}control(b.dataset.move.split(',').map(n=>Number(n)*step))};
+for(const b of document.querySelectorAll('[data-rotate]'))b.onclick=()=>control([0,0,0],b.dataset.rotate.split(',').map(n=>Number(n)*(UI.config?.control?.rotation_step_rad||UI.config?.rotation_step_rad||.05)));
+$('open').onclick=()=>control([0,0,0],[0,0,0],-1);$('close').onclick=()=>control([0,0,0],[0,0,0],1);$('hold').onclick=()=>control();
+$('controls').addEventListener('keydown',e=>{if(e.repeat||e.altKey||e.ctrlKey||e.metaKey)return;const key=e.key.toLowerCase(),moves={w:[1,0,0],s:[-1,0,0],a:[0,1,0],d:[0,-1,0],q:[0,0,1],e:[0,0,-1]};if(key in moves){e.preventDefault();const step=Number($('moveStep').value);if(Number.isFinite(step)&&step>=.001&&step<=.05)control(moves[key].map(n=>n*step))}else if(key===' '){e.preventDefault();control([0,0,0],[0,0,0],UI.gripper===1?-1:1)}});
+$('frame').onload=()=>{$('frame').hidden=false;$('empty').hidden=true};$('frame').onerror=()=>{UI.frameKey='';$('frame').hidden=true;$('empty').hidden=false};
+$('replayVideo').onclick=()=>{$('video').currentTime=0;const p=$('video').play();if(p?.catch)p.catch(()=>message('浏览器尚未开始播放，请点击视频中的播放按钮。'))};
+async function init(){
+ try{const r=await fetch('/api/config');if(!r.ok)throw Error('网页服务未就绪，请刷新。');const c=await r.json();UI.token=c.csrf_token;if(!UI.token)throw Error('网页会话未就绪，请刷新。');setupConfig(await request('config'));await poll();await loadEpisodes()}
+ catch(e){message(e.message);UI.connected=false;setControls()}
+}
+init();setInterval(poll,1000);
+</script>
+</html>

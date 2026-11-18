@@ -1,0 +1,1226 @@
+{
+  "version": 1,
+  "objects": [
+    {
+      "id": "red_cube_1",
+      "name": "红色方块1",
+      "category": "方块",
+      "act_trained": true,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "cube",
+      "asset_id": null,
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.04,
+        0.04,
+        0.04
+      ],
+      "bbox_min": [
+        -0.02,
+        -0.02,
+        -0.02
+      ],
+      "bbox_max": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "rest_z_m": 0.02,
+      "density": 1000,
+      "half_size_m": 0.02,
+      "color": [
+        1,
+        0,
+        0,
+        1
+      ],
+      "appearance_group": "red_cube"
+    },
+    {
+      "id": "red_cube_2",
+      "name": "红色方块2",
+      "category": "方块",
+      "act_trained": true,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "cube",
+      "asset_id": null,
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.04,
+        0.04,
+        0.04
+      ],
+      "bbox_min": [
+        -0.02,
+        -0.02,
+        -0.02
+      ],
+      "bbox_max": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "rest_z_m": 0.02,
+      "density": 1000,
+      "half_size_m": 0.02,
+      "color": [
+        1,
+        0,
+        0,
+        1
+      ],
+      "appearance_group": "red_cube"
+    },
+    {
+      "id": "blue_cube",
+      "name": "蓝色方块",
+      "category": "方块",
+      "act_trained": true,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "cube",
+      "asset_id": null,
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.04,
+        0.04,
+        0.04
+      ],
+      "bbox_min": [
+        -0.02,
+        -0.02,
+        -0.02
+      ],
+      "bbox_max": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "rest_z_m": 0.02,
+      "density": 1000,
+      "half_size_m": 0.02,
+      "color": [
+        0.1,
+        0.25,
+        1,
+        1
+      ],
+      "appearance_group": "blue_cube"
+    },
+    {
+      "id": "003_cracker_box",
+      "name": "饼干盒",
+      "category": "包装盒",
+      "act_trained": true,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "003_cracker_box",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.07237779999999999,
+        0.16405619999999999,
+        0.21713315
+      ],
+      "bbox_min": [
+        -0.036188899999999996,
+        -0.08202809999999999,
+        -0.108566575
+      ],
+      "bbox_max": [
+        0.036188899999999996,
+        0.08202809999999999,
+        0.108566575
+      ],
+      "rest_z_m": 0.108566575,
+      "density": 50,
+      "appearance_group": "003_cracker_box"
+    },
+    {
+      "id": "025_mug",
+      "name": "马克杯",
+      "category": "杯碗",
+      "act_trained": true,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "025_mug",
+      "default_scale": 0.7,
+      "dimensions_m": [
+        0.07488278595052747,
+        0.06643588133985753,
+        0.0570189375
+      ],
+      "bbox_min": [
+        -0.037441392975263735,
+        -0.03321794066992877,
+        -0.02850946875
+      ],
+      "bbox_max": [
+        0.037441392975263735,
+        0.03321794066992877,
+        0.02850946875
+      ],
+      "rest_z_m": 0.02850946875,
+      "density": 1000,
+      "appearance_group": "025_mug"
+    },
+    {
+      "id": "011_banana",
+      "name": "香蕉",
+      "category": "水果",
+      "act_trained": true,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "011_banana",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.07039482666791101,
+        0.19878377053281593,
+        0.03774959145059236
+      ],
+      "bbox_min": [
+        -0.035197413333955506,
+        -0.09939188526640796,
+        -0.01887479572529618
+      ],
+      "bbox_max": [
+        0.035197413333955506,
+        0.09939188526640796,
+        0.01887479572529618
+      ],
+      "rest_z_m": 0.01887479572529618,
+      "density": 1000,
+      "appearance_group": "011_banana"
+    },
+    {
+      "id": "054_softball",
+      "name": "垒球",
+      "category": "球类",
+      "act_trained": true,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "054_softball",
+      "default_scale": 0.76,
+      "dimensions_m": [
+        0.073858624,
+        0.073858624,
+        0.07214100956
+      ],
+      "bbox_min": [
+        -0.036929312,
+        -0.036929312,
+        -0.03607050478
+      ],
+      "bbox_max": [
+        0.036929312,
+        0.036929312,
+        0.03607050478
+      ],
+      "rest_z_m": 0.03607050478,
+      "density": 1000,
+      "appearance_group": "054_softball"
+    },
+    {
+      "id": "055_baseball",
+      "name": "棒球",
+      "category": "球类",
+      "act_trained": true,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "055_baseball",
+      "default_scale": 0.58,
+      "dimensions_m": [
+        0.04294191343703343,
+        0.0426486887468988,
+        0.04284242376101086
+      ],
+      "bbox_min": [
+        -0.021470956718516714,
+        -0.0213243443734494,
+        -0.02142121188050543
+      ],
+      "bbox_max": [
+        0.021470956718516714,
+        0.0213243443734494,
+        0.02142121188050543
+      ],
+      "rest_z_m": 0.02142121188050543,
+      "density": 1000,
+      "appearance_group": "055_baseball"
+    },
+    {
+      "id": "002_master_chef_can",
+      "name": "咖啡罐",
+      "category": "罐装食品",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "002_master_chef_can",
+      "default_scale": 0.7,
+      "dimensions_m": [
+        0.0721868,
+        0.0721868,
+        0.0992566267
+      ],
+      "bbox_min": [
+        -0.0360934,
+        -0.0360934,
+        -0.04962831335
+      ],
+      "bbox_max": [
+        0.0360934,
+        0.0360934,
+        0.04962831335
+      ],
+      "rest_z_m": 0.04962831335,
+      "density": 1000,
+      "appearance_group": "002_master_chef_can"
+    },
+    {
+      "id": "004_sugar_box",
+      "name": "糖盒",
+      "category": "包装盒",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "004_sugar_box",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.04878730449510933,
+        0.09520839273543616,
+        0.1779080917250916
+      ],
+      "bbox_min": [
+        -0.024393652247554666,
+        -0.04760419636771808,
+        -0.0889540458625458
+      ],
+      "bbox_max": [
+        0.024393652247554666,
+        0.04760419636771808,
+        0.0889540458625458
+      ],
+      "rest_z_m": 0.0889540458625458,
+      "density": 50,
+      "appearance_group": "004_sugar_box"
+    },
+    {
+      "id": "005_tomato_soup_can",
+      "name": "番茄汤罐",
+      "category": "罐装食品",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "005_tomato_soup_can",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.06914559999999999,
+        0.06914529999999999,
+        0.102517458
+      ],
+      "bbox_min": [
+        -0.034572799999999994,
+        -0.034572649999999996,
+        -0.051258729
+      ],
+      "bbox_max": [
+        0.034572799999999994,
+        0.034572649999999996,
+        0.051258729
+      ],
+      "rest_z_m": 0.051258729,
+      "density": 1000,
+      "appearance_group": "005_tomato_soup_can"
+    },
+    {
+      "id": "006_mustard_bottle",
+      "name": "芥末酱瓶",
+      "category": "瓶装用品",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "006_mustard_bottle",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.09902166737425855,
+        0.06029138747925416,
+        0.19553016492022204
+      ],
+      "bbox_min": [
+        -0.049510833687129274,
+        -0.03014569373962708,
+        -0.09776508246011102
+      ],
+      "bbox_max": [
+        0.049510833687129274,
+        0.03014569373962708,
+        0.09776508246011102
+      ],
+      "rest_z_m": 0.09776508246011102,
+      "density": 1000,
+      "appearance_group": "006_mustard_bottle"
+    },
+    {
+      "id": "007_tuna_fish_can",
+      "name": "金枪鱼罐头",
+      "category": "罐装食品",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "007_tuna_fish_can",
+      "default_scale": 0.8,
+      "dimensions_m": [
+        0.06953907090953819,
+        0.06945944613050162,
+        0.02757884
+      ],
+      "bbox_min": [
+        -0.034769535454769095,
+        -0.03472972306525081,
+        -0.01378942
+      ],
+      "bbox_max": [
+        0.034769535454769095,
+        0.03472972306525081,
+        0.01378942
+      ],
+      "rest_z_m": 0.01378942,
+      "density": 1000,
+      "appearance_group": "007_tuna_fish_can"
+    },
+    {
+      "id": "008_pudding_box",
+      "name": "布丁盒",
+      "category": "包装盒",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "008_pudding_box",
+      "default_scale": 0.8,
+      "dimensions_m": [
+        0.09203363214011964,
+        0.0738024585836149,
+        0.032999392
+      ],
+      "bbox_min": [
+        -0.04601681607005982,
+        -0.03690122929180745,
+        -0.016499696
+      ],
+      "bbox_max": [
+        0.04601681607005982,
+        0.03690122929180745,
+        0.016499696
+      ],
+      "rest_z_m": 0.016499696,
+      "density": 50,
+      "appearance_group": "008_pudding_box"
+    },
+    {
+      "id": "009_gelatin_box",
+      "name": "果冻盒",
+      "category": "包装盒",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "009_gelatin_box",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.07499116950599798,
+        0.09085705955395365,
+        0.030777805
+      ],
+      "bbox_min": [
+        -0.03749558475299899,
+        -0.045428529776976825,
+        -0.0153889025
+      ],
+      "bbox_max": [
+        0.03749558475299899,
+        0.045428529776976825,
+        0.0153889025
+      ],
+      "rest_z_m": 0.0153889025,
+      "density": 50,
+      "appearance_group": "009_gelatin_box"
+    },
+    {
+      "id": "010_potted_meat_can",
+      "name": "午餐肉罐",
+      "category": "罐装食品",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "010_potted_meat_can",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.10391662192348369,
+        0.059081596947376025,
+        0.08362759
+      ],
+      "bbox_min": [
+        -0.051958310961741846,
+        -0.029540798473688012,
+        -0.041813795
+      ],
+      "bbox_max": [
+        0.051958310961741846,
+        0.029540798473688012,
+        0.041813795
+      ],
+      "rest_z_m": 0.041813795,
+      "density": 1000,
+      "appearance_group": "010_potted_meat_can"
+    },
+    {
+      "id": "013_apple",
+      "name": "苹果",
+      "category": "水果",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "013_apple",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.07587659999999999,
+        0.07588039999999999,
+        0.072267002
+      ],
+      "bbox_min": [
+        -0.037938299999999994,
+        -0.03794019999999999,
+        -0.036133501
+      ],
+      "bbox_max": [
+        0.037938299999999994,
+        0.03794019999999999,
+        0.036133501
+      ],
+      "rest_z_m": 0.036133501,
+      "density": 1000,
+      "appearance_group": "013_apple"
+    },
+    {
+      "id": "014_lemon",
+      "name": "柠檬",
+      "category": "水果",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "014_lemon",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.0607462,
+        0.06037574999999999,
+        0.053338025
+      ],
+      "bbox_min": [
+        -0.0303731,
+        -0.030187874999999996,
+        -0.0266690125
+      ],
+      "bbox_max": [
+        0.0303731,
+        0.030187874999999996,
+        0.0266690125
+      ],
+      "rest_z_m": 0.0266690125,
+      "density": 1000,
+      "appearance_group": "014_lemon"
+    },
+    {
+      "id": "015_peach",
+      "name": "桃子",
+      "category": "水果",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "015_peach",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.05898279576597676,
+        0.06516438260603587,
+        0.06055888560470908
+      ],
+      "bbox_min": [
+        -0.02949139788298838,
+        -0.032582191303017934,
+        -0.03027944280235454
+      ],
+      "bbox_max": [
+        0.02949139788298838,
+        0.032582191303017934,
+        0.03027944280235454
+      ],
+      "rest_z_m": 0.03027944280235454,
+      "density": 1000,
+      "appearance_group": "015_peach"
+    },
+    {
+      "id": "016_pear",
+      "name": "梨",
+      "category": "水果",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "016_pear",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.0684475604532622,
+        0.0961305735773206,
+        0.06590364400000001
+      ],
+      "bbox_min": [
+        -0.0342237802266311,
+        -0.0480652867886603,
+        -0.032951822000000006
+      ],
+      "bbox_max": [
+        0.0342237802266311,
+        0.0480652867886603,
+        0.032951822000000006
+      ],
+      "rest_z_m": 0.032951822000000006,
+      "density": 1000,
+      "appearance_group": "016_pear"
+    },
+    {
+      "id": "017_orange",
+      "name": "橙子",
+      "category": "水果",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "017_orange",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.0730111336779232,
+        0.07380774222704034,
+        0.07276242100000001
+      ],
+      "bbox_min": [
+        -0.0365055668389616,
+        -0.03690387111352017,
+        -0.036381210500000004
+      ],
+      "bbox_max": [
+        0.0365055668389616,
+        0.03690387111352017,
+        0.036381210500000004
+      ],
+      "rest_z_m": 0.036381210500000004,
+      "density": 1000,
+      "appearance_group": "017_orange"
+    },
+    {
+      "id": "018_plum",
+      "name": "李子",
+      "category": "水果",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "018_plum",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.05675817820135369,
+        0.05399140565620383,
+        0.053476644000000004
+      ],
+      "bbox_min": [
+        -0.028379089100676845,
+        -0.026995702828101913,
+        -0.026738322000000002
+      ],
+      "bbox_max": [
+        0.028379089100676845,
+        0.026995702828101913,
+        0.026738322000000002
+      ],
+      "rest_z_m": 0.026738322000000002,
+      "density": 1000,
+      "appearance_group": "018_plum"
+    },
+    {
+      "id": "026_sponge",
+      "name": "海绵",
+      "category": "清洁用品",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "026_sponge",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.08103941951968892,
+        0.11222592357114672,
+        0.020361498515929964
+      ],
+      "bbox_min": [
+        -0.04051970975984446,
+        -0.05611296178557336,
+        -0.010180749257964982
+      ],
+      "bbox_max": [
+        0.04051970975984446,
+        0.05611296178557336,
+        0.010180749257964982
+      ],
+      "rest_z_m": 0.010180749257964982,
+      "density": 1000,
+      "appearance_group": "026_sponge"
+    },
+    {
+      "id": "036_wood_block",
+      "name": "木块",
+      "category": "方块",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "036_wood_block",
+      "default_scale": 0.8,
+      "dimensions_m": [
+        0.07555897154026314,
+        0.0742277180975227,
+        0.16813073084014493
+      ],
+      "bbox_min": [
+        -0.03777948577013157,
+        -0.03711385904876135,
+        -0.08406536542007247
+      ],
+      "bbox_max": [
+        0.03777948577013157,
+        0.03711385904876135,
+        0.08406536542007247
+      ],
+      "rest_z_m": 0.08406536542007247,
+      "density": 1000,
+      "appearance_group": "036_wood_block"
+    },
+    {
+      "id": "061_foam_brick",
+      "name": "泡沫砖",
+      "category": "方块",
+      "act_trained": false,
+      "pi05_trained": true,
+      "pi05_split": "train",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "061_foam_brick",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.05304961936812234,
+        0.07841144343966669,
+        0.05207346944296329
+      ],
+      "bbox_min": [
+        -0.02652480968406117,
+        -0.039205721719833345,
+        -0.026036734721481644
+      ],
+      "bbox_max": [
+        0.02652480968406117,
+        0.039205721719833345,
+        0.026036734721481644
+      ],
+      "rest_z_m": 0.026036734721481644,
+      "density": 1000,
+      "appearance_group": "061_foam_brick"
+    },
+    {
+      "id": "012_strawberry",
+      "name": "草莓",
+      "category": "水果",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "012_strawberry",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.04768965269305619,
+        0.04369431303141228,
+        0.04715483679319046
+      ],
+      "bbox_min": [
+        -0.023844826346528094,
+        -0.02184715651570614,
+        -0.02357741839659523
+      ],
+      "bbox_max": [
+        0.023844826346528094,
+        0.02184715651570614,
+        0.02357741839659523
+      ],
+      "rest_z_m": 0.02357741839659523,
+      "density": 1000,
+      "appearance_group": "012_strawberry"
+    },
+    {
+      "id": "024_bowl",
+      "name": "碗",
+      "category": "杯碗",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "024_bowl",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.16228319999999996,
+        0.16228359999999997,
+        0.055323799
+      ],
+      "bbox_min": [
+        -0.08114159999999998,
+        -0.08114179999999999,
+        -0.0276618995
+      ],
+      "bbox_max": [
+        0.08114159999999998,
+        0.08114179999999999,
+        0.0276618995
+      ],
+      "rest_z_m": 0.0276618995,
+      "density": 1000,
+      "appearance_group": "024_bowl"
+    },
+    {
+      "id": "038_padlock",
+      "name": "挂锁",
+      "category": "工具",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "038_padlock",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.055567246123998854,
+        0.07185014515107968,
+        0.029609178
+      ],
+      "bbox_min": [
+        -0.027783623061999427,
+        -0.03592507257553984,
+        -0.014804589
+      ],
+      "bbox_max": [
+        0.027783623061999427,
+        0.03592507257553984,
+        0.014804589
+      ],
+      "rest_z_m": 0.014804589,
+      "density": 1000,
+      "appearance_group": "038_padlock"
+    },
+    {
+      "id": "040_large_marker",
+      "name": "粗记号笔",
+      "category": "文具",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "040_large_marker",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.019723220802409066,
+        0.12204889206936431,
+        0.019617164
+      ],
+      "bbox_min": [
+        -0.009861610401204533,
+        -0.061024446034682156,
+        -0.009808582
+      ],
+      "bbox_max": [
+        0.009861610401204533,
+        0.061024446034682156,
+        0.009808582
+      ],
+      "rest_z_m": 0.009808582,
+      "density": 1000,
+      "appearance_group": "040_large_marker"
+    },
+    {
+      "id": "050_medium_clamp",
+      "name": "中号夹具",
+      "category": "工具",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "050_medium_clamp",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.08620758586273558,
+        0.07886857239230627,
+        0.02731959
+      ],
+      "bbox_min": [
+        -0.04310379293136779,
+        -0.039434286196153134,
+        -0.013659795
+      ],
+      "bbox_max": [
+        0.04310379293136779,
+        0.039434286196153134,
+        0.013659795
+      ],
+      "rest_z_m": 0.013659795,
+      "density": 1000,
+      "appearance_group": "050_medium_clamp"
+    },
+    {
+      "id": "053_mini_soccer_ball",
+      "name": "迷你足球",
+      "category": "球类",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "053_mini_soccer_ball",
+      "default_scale": 0.5,
+      "dimensions_m": [
+        0.06442147811322319,
+        0.06391890072231804,
+        0.06222656100881105
+      ],
+      "bbox_min": [
+        -0.03221073905661159,
+        -0.03195945036115902,
+        -0.031113280504405524
+      ],
+      "bbox_max": [
+        0.03221073905661159,
+        0.03195945036115902,
+        0.031113280504405524
+      ],
+      "rest_z_m": 0.031113280504405524,
+      "density": 1000,
+      "appearance_group": "053_mini_soccer_ball"
+    },
+    {
+      "id": "056_tennis_ball",
+      "name": "网球",
+      "category": "球类",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "056_tennis_ball",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.06772053666886749,
+        0.06797999042429266,
+        0.06652379
+      ],
+      "bbox_min": [
+        -0.033860268334433744,
+        -0.03398999521214633,
+        -0.033261895
+      ],
+      "bbox_max": [
+        0.033860268334433744,
+        0.03398999521214633,
+        0.033261895
+      ],
+      "rest_z_m": 0.033261895,
+      "density": 1000,
+      "appearance_group": "056_tennis_ball"
+    },
+    {
+      "id": "057_racquetball",
+      "name": "壁球",
+      "category": "球类",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "057_racquetball",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.05668139999999999,
+        0.0566817,
+        0.056681437
+      ],
+      "bbox_min": [
+        -0.028340699999999996,
+        -0.02834085,
+        -0.0283407185
+      ],
+      "bbox_max": [
+        0.028340699999999996,
+        0.02834085,
+        0.0283407185
+      ],
+      "rest_z_m": 0.0283407185,
+      "density": 1000,
+      "appearance_group": "057_racquetball"
+    },
+    {
+      "id": "058_golf_ball",
+      "name": "高尔夫球",
+      "category": "球类",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "058_golf_ball",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.04341294776100552,
+        0.04341296114717032,
+        0.042540152
+      ],
+      "bbox_min": [
+        -0.02170647388050276,
+        -0.02170648057358516,
+        -0.021270076
+      ],
+      "bbox_max": [
+        0.02170647388050276,
+        0.02170648057358516,
+        0.021270076
+      ],
+      "rest_z_m": 0.021270076,
+      "density": 1000,
+      "appearance_group": "058_golf_ball"
+    },
+    {
+      "id": "065-a_cups",
+      "name": "塑料杯A",
+      "category": "杯碗",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "065-a_cups",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.05938193730681901,
+        0.05876439399257333,
+        0.06307796
+      ],
+      "bbox_min": [
+        -0.029690968653409505,
+        -0.029382196996286664,
+        -0.03153898
+      ],
+      "bbox_max": [
+        0.029690968653409505,
+        0.029382196996286664,
+        0.03153898
+      ],
+      "rest_z_m": 0.03153898,
+      "density": 1000,
+      "appearance_group": "065-a_cups"
+    },
+    {
+      "id": "065-d_cups",
+      "name": "塑料杯D",
+      "category": "杯碗",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "065-d_cups",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.0715208,
+        0.0715208,
+        0.07152083999999999
+      ],
+      "bbox_min": [
+        -0.0357604,
+        -0.0357604,
+        -0.035760419999999994
+      ],
+      "bbox_max": [
+        0.0357604,
+        0.0357604,
+        0.035760419999999994
+      ],
+      "rest_z_m": 0.035760419999999994,
+      "density": 1000,
+      "appearance_group": "065-d_cups"
+    },
+    {
+      "id": "070-a_colored_wood_blocks",
+      "name": "彩色木块",
+      "category": "方块",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "070-a_colored_wood_blocks",
+      "default_scale": 0.5,
+      "dimensions_m": [
+        0.0717033,
+        0.0717044,
+        0.083026322
+      ],
+      "bbox_min": [
+        -0.03585165,
+        -0.0358522,
+        -0.041513161
+      ],
+      "bbox_max": [
+        0.03585165,
+        0.0358522,
+        0.041513161
+      ],
+      "rest_z_m": 0.041513161,
+      "density": 1000,
+      "appearance_group": "070-a_colored_wood_blocks"
+    },
+    {
+      "id": "071_nine_hole_peg_test",
+      "name": "九孔插板",
+      "category": "玩具",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "071_nine_hole_peg_test",
+      "default_scale": 0.5,
+      "dimensions_m": [
+        0.06739704741772215,
+        0.07806394266222738,
+        0.021691923015467688
+      ],
+      "bbox_min": [
+        -0.033698523708861075,
+        -0.03903197133111369,
+        -0.010845961507733844
+      ],
+      "bbox_max": [
+        0.033698523708861075,
+        0.03903197133111369,
+        0.010845961507733844
+      ],
+      "rest_z_m": 0.010845961507733844,
+      "density": 1000,
+      "appearance_group": "071_nine_hole_peg_test"
+    },
+    {
+      "id": "073-a_lego_duplo",
+      "name": "乐高积木",
+      "category": "玩具",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "073-a_lego_duplo",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.0654718,
+        0.032735959999999995,
+        0.024941625000000002
+      ],
+      "bbox_min": [
+        -0.0327359,
+        -0.016367979999999997,
+        -0.012470812500000001
+      ],
+      "bbox_max": [
+        0.0327359,
+        0.016367979999999997,
+        0.012470812500000001
+      ],
+      "rest_z_m": 0.012470812500000001,
+      "density": 1000,
+      "appearance_group": "073-a_lego_duplo"
+    },
+    {
+      "id": "077_rubiks_cube",
+      "name": "魔方",
+      "category": "玩具",
+      "act_trained": false,
+      "pi05_trained": false,
+      "pi05_split": "heldout",
+      "available": true,
+      "kind": "ycb",
+      "asset_id": "077_rubiks_cube",
+      "default_scale": 1.0,
+      "dimensions_m": [
+        0.05917901988066561,
+        0.06036957924167485,
+        0.058281948
+      ],
+      "bbox_min": [
+        -0.029589509940332805,
+        -0.030184789620837427,
+        -0.029140974
+      ],
+      "bbox_max": [
+        0.029589509940332805,
+        0.030184789620837427,
+        0.029140974
+      ],
+      "rest_z_m": 0.029140974,
+      "density": 1000,
+      "appearance_group": "077_rubiks_cube"
+    }
+  ]
+}

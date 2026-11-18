@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 import numpy as np
 
+from deployment_paths import policy_root
 from task_agent.runner import TaskRunner
 from task_agent.contracts import validate_target
 
@@ -21,7 +22,7 @@ class IdleMonitor:
 
 class SingleTargetCycleTests(unittest.TestCase):
     def run_task(self, retry_first=False, complete_after_first=False):
-        directory = tempfile.TemporaryDirectory()
+        directory = tempfile.TemporaryDirectory(dir=policy_root())
         self.addCleanup(directory.cleanup)
         calls = []
         state = dict(frame_id=0, captured_at=0., phase='idle', target_text='',
@@ -88,7 +89,7 @@ class SingleTargetCycleTests(unittest.TestCase):
                 bbox_xyxy=[[2, 2, 8, 8], [12, 12, 18, 18]], coordinate_space='pixels'), 32, 32)
 
     def test_retiring_target_clears_public_bbox_before_next_grounding(self):
-        directory = tempfile.TemporaryDirectory()
+        directory = tempfile.TemporaryDirectory(dir=policy_root())
         self.addCleanup(directory.cleanup)
         runner = TaskRunner('收拾方块', 'act', 17, directory.name)
         runner.backend = SimpleNamespace(set_context=lambda *args: None)

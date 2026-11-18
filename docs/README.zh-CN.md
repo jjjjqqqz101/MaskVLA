@@ -6,6 +6,14 @@ MaskVLA 在仿真机械臂的相机输入中加入目标掩码，让策略看到
 
 上图从左到右分别为 [ACT 抓放香蕉](media/act-banana.mp4)、[π0.5 抓放罐子](media/pi05-can.mp4) 和 [π0.5 抓放马克杯](media/pi05-mug.mp4)。动图以 2 倍速播放，链接指向四视角原速录像。三段都来自自主策略的留出测试。
 
+## ManiSkill 的 VLM 任务代理
+
+输入自然语言指令后，VLM 根据场景图像规划抓放顺序、定位目标，并在执行过程中观察动作、检查最终放置结果。SAM 2 和 Cutie 生成并跟踪目标掩码。双路 ACT、三路 ACT 或 π0.5 负责抓取和抬升，MPLib 负责运送、松夹和撤离。
+
+[配置并运行 VLM agent](vlm-agent.md) · [视觉提示词与决策逻辑](../overlays/ManiSkill/examples/baselines/act/task_agent/vlm.py) · [执行循环](../overlays/ManiSkill/examples/baselines/act/task_agent/runner.py)
+
+目前归档了 5 段 ManiSkill 任务控制台录像。三次棒球测试分别使用双路 ACT、三路 ACT 和 π0.5，仿真诊断均未记录到抓持或抬升。另两段分别停在目标定位和场景预览。上方展示的三段成功抓放均来自 RoboCasa。
+
 ## 从哪里开始
 
 - **先在 CPU 上验证安装。** [首页的快速检查](../README.md#try-the-cpu-checks) 用合成样本检查观测、动作、物品选择和回放契约。运行这组检查无需下载权重或数据集。

@@ -68,7 +68,7 @@ Place inputs inside the project root. The paths below are defaults relative to t
 | Cutie Base Mega | `ckpt/perception/cutie-base-mega.pth` | `CUTIE_CHECKPOINT` |
 | ManiSkill assets root | `assets/maniskill/` | `MS_ASSET_DIR` |
 
-Configure the vision-language client through `QWEN_API_KEY`, `QWEN_BASE_URL` (the provider's HTTPS OpenAI-compatible API base) and `QWEN_MODEL` (a vision-capable model available to your account). During a task it sends camera frames to that provider for grounding and supervision.
+Configure the VLM in the shell that launches the ManiSkill task console. The [agent guide](../docs/vlm-agent.md#run-a-live-task) shows how to enter your own key with terminal echo disabled and select your HTTPS endpoint and vision model. For a persistent local setup the client also accepts `base_url`, `model` and `api_key` in the Git-ignored `config/private/qwen.json` file.
 
 Use a separate shell for each service. From the project root, run `source setup/environment.sh`, then `cd repo/ManiSkill/examples/baselines/act` in each shell.
 
@@ -85,6 +85,27 @@ Use a separate shell for each service. From the project root, run `source setup/
 ```
 
 For an ACT task, choose a scene, generate it, inspect its cameras, select a policy and enter a task instruction. The scene reference records the original camera images so different policies can be compared on the same initial layout. The RoboCasa page routes its controls to the separate [RoboCasa bridge](../robocasa_bridge/).
+
+## Run the VLM task agent
+
+The [task runner](../overlays/ManiSkill/examples/baselines/act/task_agent/runner.py) connects the VLM's visual decisions to the low-level skill. The [prompts and image assembly](../overlays/ManiSkill/examples/baselines/act/task_agent/vlm.py) cover planning, grounding one target at a time, checking its initial mask and judging task progress. The learned policy grasps and lifts the object. A motion planner then carries it to the collection area, releases it and retreats. The [supervisor](../overlays/ManiSkill/examples/baselines/act/task_agent/supervisor.py) samples visual feedback at a nominal 1 Hz and filters stale responses; the runner uses that evidence to continue, retry or stop.
+
+With the services and inputs above ready, you can also run a task directly from the ACT directory. Choose a fresh output path for each run. The policy IDs are `act` (two RGB streams), `act_triple` (three RGB streams) and `pi05`. For example:
+
+```bash
+"$MASK_ACT_PYTHON" -m task_agent.runner \
+  --instruction 'Move a visible object into the green collection area.' \
+  --policy act --seed 17 --output "$MASK_POLICY_ROOT/outputs/task_agent/cli-demo-01"
+```
+
+The runner records VLM decisions and the final status locally. Its completion decision is a visual assessment. To exercise the decision loop **offline**, use Python 3.11+, NumPy and Pillow in the same ACT directory:
+
+```bash
+python -m unittest test_task_agent_grounding test_task_agent_vlm_observation \
+  test_task_agent_supervisor test_task_agent_single_target_cycle
+```
+
+These tests supply synthetic images and scripted responses, so no provider account, API key, GPU or checkpoint is required.
 
 ## Training and checks
 

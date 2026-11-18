@@ -1,8 +1,8 @@
 # MaskVLA
 
-**Target-conditioned robot manipulation in simulation.** MaskVLA gives a robot policy an extra camera view that isolates the object it should pick. The ManiSkill workbench lets you change that mask and rerun the same scene. The RoboCasa pilot tests whether ACT and π0.5 can grasp the target, carry it to a tray, release it and leave it there.
+**Target-conditioned robot manipulation in simulation.** MaskVLA gives a robot policy an extra camera view that isolates the object it should pick. The ManiSkill workbench pairs a vision-language task agent with a learned grasping policy and lets you rerun the same scene with a different mask. The RoboCasa pilot tests whether ACT and π0.5 can grasp the target, carry it to a tray, release it and leave it there.
 
-[中文说明](docs/README.zh-CN.md) · [ManiSkill setup](setup/README.md) · [RoboCasa setup](robocasa_bridge/README.md) · [Evaluation protocol](docs/evaluation.md)
+[中文说明](docs/README.zh-CN.md) · [VLM agent](docs/vlm-agent.md) · [ManiSkill setup](setup/README.md) · [RoboCasa setup](robocasa_bridge/README.md) · [Evaluation protocol](docs/evaluation.md)
 
 ![Three autonomous RoboCasa rollouts in parallel. ACT places a banana, and π0.5 places a can and a mug in the green tray.](docs/media/grasp-preview.gif)
 
@@ -13,6 +13,14 @@
 | ACT | Banana | [Watch MP4](docs/media/act-banana.mp4) | 20.6 cm |
 | π0.5 | Can | [Watch MP4](docs/media/pi05-can.mp4) | 15.5 cm |
 | π0.5 | Mug | [Watch MP4](docs/media/pi05-mug.mp4) | 22.1 cm |
+
+## ManiSkill VLM agent
+
+Give the agent a task in natural language. It inspects the scene, breaks the instruction into pick-and-place steps and locates the requested object in the camera image. SAM 2 and Cutie produce and track the mask. The selected policy (dual-view ACT, triple-view ACT or π0.5) controls grasp and lift. MPLib handles transport and release. The VLM monitors camera frames during execution and checks the final placement.
+
+[Run the agent with your own VLM endpoint](docs/vlm-agent.md) · [Planning and visual prompts](overlays/ManiSkill/examples/baselines/act/task_agent/vlm.py) · [Task execution loop](overlays/ManiSkill/examples/baselines/act/task_agent/runner.py)
+
+The videos above come from the separate RoboCasa evaluation. Across the five archived ManiSkill task-console recordings, the simulator recorded no successful grasp. Three baseball trials (one per policy) recorded zero lift. The other recordings ended during target localization or scene preview.
 
 ## What can I run?
 
@@ -36,7 +44,7 @@ MASK_POLICY_ROOT="$(mktemp -d)" python -m unittest discover -s robocasa_bridge/t
 
 For simulation and training, follow the workbench links above. The repository provides source, changes against pinned upstream revisions, and the three demonstration videos. Supply your own datasets, model checkpoints and simulator assets.
 
-## Held-out pick-and-place
+## RoboCasa held-out pick-and-place
 
 On the same ten frozen kitchen scenes, **ACT completed 7/10** and **π0.5 completed 7/10**. Each scene contained one target from five fixed object models. The gripper had to lift the object, place it fully inside the tray, open and retreat while the object stayed still. The camera mask came from the simulator and both policies supplied their own actions throughout the rollout. See the [per-object results, failures and limits](docs/evaluation.md).
 
